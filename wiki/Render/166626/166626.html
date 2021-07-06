@@ -1,0 +1,37 @@
+<div class="wikidoc">Navigation: <a href="https://installerframework.codeplex.com/wikipage?referringTitle=Dokumentation">Home</a> | <a href="https://installerframework.codeplex.com/wikipage?title=Versionen&referringTitle=Dokumentation">Versionen</a> | <a href="https://installerframework.codeplex.com/wikipage?title=Dokumentation&referringTitle=Dokumentation">Dokumentation</a>
+<h1>Dokumentation</h1>Dieses Dokument verweist auf die Dokumentation des InstallerFrameworks.<br /><br /><b>Inhalt</b><br />1 Klassen, Interfaces, Enums
+<ul><li>InstallerFramework.Base-Namepace</li>
+<li>InstallerFramework.Installer-Namspace</li>
+<li>InstallerFramework.Installers.Service-Namespace</li>
+<li>InstallerFramework.Dialog-Namespace</li></ul>
+2 Weitere Artikel<br /><br /><b>1 Klassen, Interfaces, Enums</b><br /><br />InstallerFramework.Base-Namespace:<br /><table><tr><th>Member</th><th>Beschreibung</th><th>Codedatei</th></tr>
+<tr><td><a href="https://installerframework.codeplex.com/wikipage?title=AdvancedInstaller-Klasse&referringTitle=Dokumentation">AdvancedInstaller-Klasse</a></td><td>Basisklasse f&#252;r die Installation von Software.</td><td>AdvancedInstaller.cs</td></tr>
+<tr><td>InstallException-Klasse</td><td>Stellt eine Ausnahme dar, die w&#228;hrend der Installation auftritt.</td><td>InstallException.cs</td></tr>
+<tr><td>InstallExceptionEventArgs</td><td>Enth&#228;lt Informationen f&#252;r das InstallException-Event.</td><td>InstallExceptionEventArgs.cs</td></tr>
+<tr><td>InstallLog-Klasse</td><td>Verarbeitet Log-Nachrichten, indem sie auf der Konsole ausgegeben werden und in eine Log-Datei geschrieben werden.</td><td>InstallLog.cs</td></tr>
+<tr><td>SoftwareDetector-Klasse</td><td>Findet Software, die auf dem System installiert ist.</td><td>SoftwareDetector.cs</td></tr>
+<tr><td>SoftwareInfo-Klasse</td><td>Informationen &#252;ber eine Software.</td><td>SoftwareInfo.cs</td></tr>
+<tr><td>SoftwareInfoFilter-Delegat</td><td>Methode zum Filtern von auf dem System installierter Software.</td><td>SoftwareDetector.cs</td></tr>
+<tr><td>StepChangedEventArgs-Klasse</td><td>Ereignisdaten f&#252;r das StepChanged-Event.</td><td>StepChangedEventArgs.cs</td></tr>
+<tr><td>StepCounter-Klasse</td><td>Z&#228;hlt die Fortschrittsstufen eines Installationsvorgangs.</td><td>StepCounter.cs</td></tr>
+<tr><td>StepInfo-Klasse</td><td>Verwaltet die Stufenanzahl des Fortschritts von Installationsvorg&#228;ngen.</td><td>StepInfo.cs</td></tr>
+<tr><td>TransactedInstallMode-Enum</td><td>M&#246;glichkeiten der Fehlerbehandlung w&#228;hrend der Installation.</td><td>TransactedInstallMode.cs</td></tr></table><br /><br />InstallerFramework.Installer-Namespace:<br /><table><tr><th>Member</th><th>Beschreibung</th><th>Codedatei</th></tr>
+<tr><td>DwordProperties-Enum</td><td>Auflistung von Software-Eigenschaften, die im DWORD-Format angegeben werden.</td><td>RegistryProperties.cs</td></tr>
+<tr><td>EventLogInstaller-Klasse</td><td>Installiert EventLogs auf dem System.</td><td>EventLogInstaller.cs</td></tr>
+<tr><td>FileSystemInstaller-Klasse</td><td>Installiert Dateien und Verzeichnisse auf dem System.</td><td>FileSystemInstaller.cs</td></tr>
+<tr><td>InstallerDirectory-Klasse</td><td>Enth&#228;lt Informationen f&#252;r die Installation eines Verzeichnisses.</td><td>InstallerDirectory.cs</td></tr>
+<tr><td>InstallerFile-Klasse</td><td>Enth&#228;lt Informationen f&#252;r die Installation einer Datei.</td><td>InstallerFile.cs</td></tr>
+<tr><td>MainInstaller-Klasse</td><td>Ein &#252;bergeordneter Installer, der andere Installationsvorg&#228;nge koordiniert und Informationen f&#252;r die Deinstallation speichert.</td><td>MainInstaller.cs</td></tr>
+<tr><td>RegistryKeyInstaller-Klasse</td><td>Erstellt Registrierungseintr&#228;ge in der Registry.</td><td>RegistryKeyInstaller.cs</td></tr>
+<tr><td>RegistryValue-Klasse</td><td>Informationen &#252;ber zu erstellende Registrierungseintr&#228;ge.</td><td>RegistryValue.cs</td></tr>
+<tr><td>ShortcutInstaller-Klasse</td><td>Installiert Verkn&#252;pfungen zu Dateien und Verzeichnissen.</td><td>ShortcutInstaller-Klasse.cs</td></tr>
+<tr><td>SoftwareRegistryInstaller</td><td>-</td><td>SoftwareRegistryInstaller.cs</td></tr>
+<tr><td>StringProperties-Enum</td><td>Auflistung von Software-Eigenschaften, die im String-Format angegeben werden.</td><td>RegistryProperties.cs</td></tr></table><br /><br />InstallerFramework.Installers.Service-Namespace:<br /><table><tr><th>Member</th><th>Beschreibung</th><th>Codedatei</th></tr>
+<tr><td>NativeMethods</td><td>Importierte Methoden zum Steuern von Diensten.</td><td>ServiceController.cs</td></tr>
+<tr><td>ServiceAccount</td><td>Anmeldeinformationen f&#252;r einen Dienst.</td><td>ServiceAccount.cs</td></tr>
+<tr><td>ServiceInstaller</td><td>Installiert Dienste oder Treiber auf dem System.</td><td>ServiceInstaller.cs</td></tr>
+<tr><td>ServiceProperties</td><td>Erweiterte Diensteigenschaften.</td><td>ServiceProperties.cs</td></tr></table><br /><br />InstallerFramework.Dialog-Namespace:<br /><table><tr><th>Member</th><th>Beschreibung</th><th>Codedatei</th></tr>
+<tr><td>DialogForm</td><td>Stellt einen mehrstufigen Dialog als Benutzeroberfl&#228;che f&#252;r Installationen dar.</td><td>DialogForm.cs</td></tr>
+<tr><td>DialogStep</td><td>Die Stufe eines mehrstufigen Dialogs.</td><td>DialogStep.cs</td></tr>
+<tr><td>FocusChangedEventArgs</td><td>Enth&#228;lt Ereignisdaten f&#252;r das das Wechseln der Stufe in einem mehrstufigen Dialog.</td><td>FocusChangedEventArgs.cs</td></tr>
+<tr><td>NavigationType</td><td>Art der Navigation in einem DialogForm.</td><td>FocusChangedEventArgs.cs</td></tr></table><br /><br /><b>2 Weitere Artikel</b><br /><a href="https://installerframework.codeplex.com/wikipage?title=Howto%3a%20Erstellen%20eines%20eigenen%20Installers&referringTitle=Dokumentation">Howto&#58; Erstellen eines eigenen Installers</a><br /><a href="https://installerframework.codeplex.com/wikipage?title=Howto%3a%20Erstellen%20eines%20mehrstufigen%20Dialogs&referringTitle=Dokumentation">Howto&#58; Erstellen eines mehrstufigen Dialogs</a></div><div class="ClearBoth"></div>

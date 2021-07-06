@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B24CCCC-DA68-40A6-A67E-7AC7A4F1D689}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InstallerFramework</RootNamespace>
+    <AssemblyName>InstallerFramework</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>keyfile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\InstallerFramework.XML</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RegisterForComInterop>false</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\InstallerFramework.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Base\AdvancedInstaller.cs" />
+    <Compile Include="Base\InstallException.cs" />
+    <Compile Include="Base\InstallExceptionEventArgs.cs" />
+    <Compile Include="Base\InstallLog.cs" />
+    <Compile Include="Installers\EventLogInstaller.cs" />
+    <Compile Include="Installers\FileSystemInstaller.cs" />
+    <Compile Include="Installers\InstallerFile.cs" />
+    <Compile Include="Installers\InstallerDirectory.cs" />
+    <Compile Include="Installers\ShellLinkWrapper.cs" />
+    <Compile Include="Installers\MainInstaller.cs" />
+    <Compile Include="Installers\RegistryKeyInstaller.cs" />
+    <Compile Include="Installers\RegistryProperties.cs" />
+    <Compile Include="Installers\RegistryValue.cs" />
+    <Compile Include="Installers\Service\ServiceAccount.cs" />
+    <Compile Include="Installers\Service\ServiceController.cs" />
+    <Compile Include="Installers\Service\ServiceInstaller.cs" />
+    <Compile Include="Installers\Service\ServiceProperties.cs" />
+    <Compile Include="Installers\Service\ServiceSettings.cs" />
+    <Compile Include="Installers\ShortcutInstaller.cs" />
+    <Compile Include="Base\SoftwareDetector.cs" />
+    <Compile Include="Base\SoftwareInfo.cs" />
+    <Compile Include="Installers\SoftwareRegistryInstaller.cs" />
+    <Compile Include="Base\StepChangedEventArgs.cs" />
+    <Compile Include="Base\StepCounter.cs" />
+    <Compile Include="Base\StepInfo.cs" />
+    <Compile Include="Base\TransactedInstallMode.cs" />
+    <Compile Include="Dialog\FocusChangedEventArgs.cs" />
+    <Compile Include="Dialog\DialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\DialogForm.Designer.cs">
+      <DependentUpon>DialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\DialogStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dialog\DialogStep.Designer.cs">
+      <DependentUpon>DialogStep.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="keyfile.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Installers\Service\Dienste.txt" />
+  </ItemGroup>
+</Project>

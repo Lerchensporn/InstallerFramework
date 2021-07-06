@@ -1,0 +1,39 @@
+<div class="wikidoc">Navigation: <a href="https://installerframework.codeplex.com/wikipage?referringTitle=AdvancedInstaller-Klasse">Home</a> | <a href="https://installerframework.codeplex.com/wikipage?title=Versionen&referringTitle=AdvancedInstaller-Klasse">Versionen</a> | <a href="https://installerframework.codeplex.com/wikipage?title=Dokumentation&referringTitle=AdvancedInstaller-Klasse">Dokumentation</a>
+<h1>AdvancedInstaller-Klasse</h1>Basisklasse f&#252;r die Installation von Software.<br /><br />Deklaration:<br /><div style="color:Black;background-color:White;"><pre>
+<span style="color:Blue;">public</span> <span style="color:Blue;">abstract</span> <span style="color:Blue;">class</span> AdvancedInstaller
+</pre></div><br /><b>Hinweise</b><br />Alle Installer werden von der AdvancedInstaller-Klasse abgeleitet, es ist auch m&#246;glich, eigene Installer zu definieren (siehe <a href="https://installerframework.codeplex.com/wikipage?title=Howto%3a%20Erstellen%20eines%20eigenen%20Installers&referringTitle=AdvancedInstaller-Klasse">Howto&#58; Erstellen eines eigenen Installers</a>). Es kann keine Instanz dieser Klasse erstellt werden, weil sie abstrakt ist.<br /><br /><b>Beispiele</b><br />In diesem Beispiel wird ein Installer definiert, der von AdvancedInstaller abgeleitet ist und eine Datei auf dem System installiert.<br /><br /><div style="color:Black;background-color:White;"><pre>
+<span style="color:Blue;">public</span> <span style="color:Blue;">class</span> MyInstaller : AdvancedInstaller
+{
+  <span style="color:Blue;">public</span> MyInstaller()
+  {
+     <span style="color:Blue;">this</span>.MaxSteps = <span style="color:Blue;">new</span> StepInfo(1, 1);
+  }
+
+  <span style="color:Blue;">public</span> <span style="color:Blue;">string</span> FileName { <span style="color:Blue;">get</span>; <span style="color:Blue;">set</span>; }
+
+  <span style="color:Blue;">public</span> <span style="color:Blue;">override</span> <span style="color:Blue;">void</span> Install(IDictionary stateSaver)
+  {
+     <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Installation gestartet...&quot;</span>);
+     <span style="color:Blue;">base</span>.Install(stateSaver);
+     <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;Die Datei wird erstellt...&quot;</span>);
+   
+     File.Create(<span style="color:Blue;">this</span>.FileName).Close();
+     stateSaver.Add(<span style="color:#A31515;">&quot;file&quot;</span>, <span style="color:Blue;">this</span>.FileName);
+
+     <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Installation abgeschlossen.&quot;</span>);
+     <span style="color:Blue;">this</span>.CurrentSteps = 1;
+  }
+ 
+  <span style="color:Blue;">public</span> <span style="color:Blue;">override</span> <span style="color:Blue;">void</span> Uninstall(IDictionary savedState)
+  {
+     <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Deinstallation gestartet.&quot;</span>);
+     <span style="color:Blue;">base</span>.Uninstall(savedState);
+     <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;Die Datei wird entfernt...&quot;</span>);
+    
+     File.Delete((<span style="color:Blue;">string</span>)savedState[<span style="color:#A31515;">&quot;file&quot;</span>]);
+
+     <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Deinstallation abgeschlossen.&quot;</span>);
+     <span style="color:Blue;">this</span>.CurrentSteps = 1;
+  }
+}
+</pre></div></div><div class="ClearBoth"></div>

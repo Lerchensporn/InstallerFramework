@@ -1,0 +1,29 @@
+<div class="wikidoc"><h2>Versionen</h2>Hier werden die &#196;nderungen in den verschiedenen Versionen angegeben.<br />
+<h3>Version 1.0</h3>Diese Version ist das erste Release des InstallerFrameworks.<br /><br /><u>Funktionen in dieser Version</u>
+<ul><li>der Installer funktioniert mit dem .Net Framework 3.5</li>
+<li>abstrakte Schnittstelle f&#252;r Installer</li>
+<li>Installer f&#252;r Registrierungseintr&#228;ge</li>
+<li>Installer f&#252;r Ereignisprotokolle</li>
+<li>Installer f&#252;r Dateien und Verzeichnisse</li>
+<li>Installer f&#252;r Registrierung der Software auf dem System</li>
+<li>Installer f&#252;r Dienste</li>
+<li>Installation, Deinstallation und Rollback werden unterst&#252;tzt</li>
+<li>mehrstufige Benutzeroberfl&#228;che</li>
+<li>Ermitteln der Fortschrittsstufe der Installation</li>
+<li>Finden von installierter Software auf dem System</li></ul>
+
+<ul><li>schnelle Installation</li>
+<li>vollst&#228;ndiger Verzicht auf „Windows Installer“</li>
+<li>gute Erweiterbarkeit mit eigenen Komponenten</li>
+<li>sehr gute Dokumentation der Frameworks</li></ul>
+<br /><u>Bugs und Zielstellung f&#252;r die n&#228;chsten Versionen</u>
+<ul><li>[BUG] das GUI wird w&#228;hrend der Installation blockiert</li>
+<li>Updates installieren</li>
+<li>Abbrechen, Anhalten und Fortsetzen der Installation</li>
+<li>Unterst&#252;tzung von Multithreading (f&#252;r bessere Nutzung der Systemleistung, schnellere Installation, keine Blockierung der GUI)</li>
+<li>Ausf&#252;hrung von Aufgaben beim Neustart (falls z.B zu &#228;ndernde Dateien von System genutzt werden)</li>
+<li>Sicherung der Installation in einer tempor&#228;ren Datei (falls das System abst&#252;rzt)</li>
+<li>Installer f&#252;r Dateiregistrierung</li>
+<li>Komprimieren der zu installierenden Software</li>
+<li>Registrierung von Dateien</li></ul>
+<br /><u>Codedateien des InstallerFrameworks</u><br />InstallerFramework.Base-Namespace:<br />&amp;nbsp;&amp;nbsp;   AdvancedInstaller, InstallException, InstallExceptionEventArgs, InstallLog, SoftwareDetector, SoftwareInfo, <br />   StepChangedEventArgs, StepCounter, StepInfo, TransactedInstallMode}<br /><br />InstallerFramework.Installers-Namespace:<br />   EventLogInstaller, FileSystemInstaller, InstallerDirectory, InstallerFile, MainInstaller, RegistryKeyInstaller, <br />   RegistryProperties, RegistryValue, ShellLinkWrapper, ShortcutInstaller, SoftwareRegistryInstaller<br /><br />InstallerFramework.Installers.Service-Namespace:<br />  ServiceAccount, ServiceController, ServiceInstaller, ServiceProperties, ServiceSettings<br /><br />InstallerFramework.Dialog-Namespace:<br />   DialogForm, DialogStep, NavigateEventArgs</div><div class="ClearBoth"></div>

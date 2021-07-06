@@ -1,0 +1,599 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SetupExample</name>
+    </assembly>
+    <members>
+        <member name="T:SetupExample.Properties.Resources">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:SetupExample.Properties.Resources.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:SetupExample.Properties.Resources.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:SetupExample.Properties.Resources.License">
+             <summary>
+               Sucht eine lokalisierte Zeichenfolge, die The MIT License (MIT)
+            
+            Copyright (c) 2009 Andreas Becker
+            
+            Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+            
+            The above copy [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+             </summary>
+        </member>
+        <member name="T:SetupExample.StringResource">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.Dialog_Cancel">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Abbrechen ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.Dialog_Finish">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Fertig ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.Dialog_Next">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Weiter &gt; ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.Dialog_Previous">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die &lt; Zurück ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.Dialog_Title">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Setup ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallPath_ButtonBrowseText">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Browse... ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallPath_ErrorboxText">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Der angegebene Pfad ist ungültig. ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallPath_ErrorboxTitle">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Ungültiger Pfad ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallStep_CancelCaption">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Installation abbrechen ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallStep_CancelText">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Soll die Installation wirklich abgebrochen werden? Beim Abbrechen der Installation wird die installierte Software vollständig vom System entfernt. ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallStep_Install">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Die Software wird installiert... ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.InstallStep_Uninstall">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Die Software wird entfernt... ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.LicenseStep_AcceptButtonText">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Annehmen ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.UninstallStep_Headline">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Willkommen beim Setup ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.UninstallStep_ReinstallText">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Vorhandene Installation überschreiben ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.UninstallStep_Text">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Dieser Assistent wird Software entfernen oder reparieren. ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.UninstallStep_UninstallText">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Deinstallieren ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.WelcomeStep_Headline">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Willkommen beim Setup ähnelt.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StringResource.WelcomeStep_WelcomeText">
+             <summary>
+               Sucht eine lokalisierte Zeichenfolge, die Dieser Assistent wird Software auf dem System installieren.
+            Vor der Installation müssen Sie dem Lizenzvertrag zustimmen. ähnelt.
+             </summary>
+        </member>
+        <member name="T:SetupExample.Steps.Sidebar">
+            <summary>
+            Sidebar für das Setup.
+            </summary>
+            <summary>
+            Sidebar des Setups-Dialogs.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.Sidebar.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.Sidebar"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.Sidebar.LinkLabel1_LinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+            <summary>
+            Tritt ein, wenn auf ein LinkLabel geklickt wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.Windows.Forms.LinkLabelLinkClickedEventArgs"/>-Instanz mit Daten für das Event.</param>
+        </member>
+        <member name="M:SetupExample.Steps.Sidebar.SidebarPaint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Wird ausgeführt, wenn auf dem Control gezeichnet wird.
+            </summary>
+            <param name="sender">Ereignisquelle des Paint-Events.</param>
+            <param name="e">Ereignisdaten für das Zeichnen auf dem Control.</param>
+        </member>
+        <member name="F:SetupExample.Steps.Sidebar.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.Sidebar.linkLabel1">
+            <summary>
+            Link zur Webseite.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.Sidebar.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.Sidebar.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="T:SetupExample.InstallAction">
+            <summary>
+            Auszuführende Aktion.
+            </summary>
+        </member>
+        <member name="F:SetupExample.InstallAction.Install">
+            <summary>
+            Software installieren.
+            </summary>
+        </member>
+        <member name="F:SetupExample.InstallAction.Uninstall">
+            <summary>
+            Software deinstallaieren.
+            </summary>
+        </member>
+        <member name="T:SetupExample.StaticProperties">
+            <summary>
+            Statische Eigenschaften.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StaticProperties.InstallPath">
+            <summary>
+            Gibt an oder legt fest, welcher Installationspfad für die Software verwendet wird.
+            </summary>
+        </member>
+        <member name="P:SetupExample.StaticProperties.InstallMode">
+            <summary>
+            Gibt an oder legt fest, welche Aktion ausgeführt wird.
+            </summary>
+        </member>
+        <member name="T:SetupExample.Steps.InstallStep">
+            <summary>
+            Installiert die Software auf dem System.
+            </summary>
+            <summary>
+            UserControl, das Software installiert.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallStep.parentDialog">
+            <summary>
+            Der übergeordnete Dialog.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallStep.installer">
+            <summary>
+            Der Installer, der die Software installiert.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.InstallStep"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.InstallStep_Load(System.Object,System.EventArgs)">
+            <summary>
+            Wird ausgeführt, wenn dieses UserControl geladen wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die die Ereignisdaten enthält.</param>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.InitializeInstallers">
+            <summary>
+            Initialisiert die Installer. 
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.InstallStep_FocusChanged(System.Object,InstallerFramework.Dialog.FocusChangedEventArgs)">
+            <summary>
+            Wird ausgeführt, wenn die Installation vom Benutzer abgebrochen wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Eine <see cref="T:InstallerFramework.Dialog.FocusChangedEventArgs"/>-Instanz, die die Ereignisdaten enthält.</param>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.Counter_StateChanged(System.Object,InstallerFramework.Base.StepChangedEventArgs)">
+            <summary>
+            Wird ausgeführt, wenn sich die Stufe des Vorgangs ändert.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:InstallerFramework.Base.StepChangedEventArgs"/>-Instanz, die die Ereignisdaten enthält.</param>
+        </member>
+        <member name="F:SetupExample.Steps.InstallStep.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallStep.label1">
+            <summary>
+            Zeigt den Status an.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallStep.progressBar1">
+            <summary>
+            Zeigt den Fortschritt der Installation an.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.InstallStep.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="T:SetupExample.Steps.UninstallStep">
+            <summary>
+            Startseite zur Deinstallation.
+            </summary>
+            <summary>
+            Startseite für die Deinstallation.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.UninstallStep.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.UninstallStep"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.UninstallStep.UninstallStep_FocusChanged(System.Object,InstallerFramework.Dialog.FocusChangedEventArgs)">
+            <summary>
+            Tritt ein, wenn sich der Fokus dieser Stufe im Dialog ändert.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die Ereignisdaten.</param>
+        </member>
+        <member name="F:SetupExample.Steps.UninstallStep.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.UninstallStep.labelWelcome">
+            <summary>
+            Das Willkommen-Label.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.UninstallStep.labelHeader">
+            <summary>
+            Label mit der Überschrift.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.UninstallStep.radioButtonUninstall">
+            <summary>
+            Option, bei der die Software deinstalliert wird.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.UninstallStep.radioButtonReinstall">
+            <summary>
+            Option, bei der die Software über die vorhandene Installation installiert wird (reparieren).
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.UninstallStep.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.UninstallStep.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="T:SetupExample.Steps.LicenseStep">
+            <summary>
+            UserControl, in dem der Lizenzvertrag angezeigt wird.
+            </summary>
+            <summary>
+            Zeigt den Lizenzvertrag an.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.LicenseStep.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.LicenseStep.richTextBox1">
+            <summary>
+            RichTextBox, in der die Lizenz angezeigt wird.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.LicenseStep.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.LicenseStep.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.LicenseStep.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.LicenseStep"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.LicenseStep.LicenseStep_Load(System.Object,System.EventArgs)">
+            <summary>
+            Wird ausgeführt wenn das UserControl geladen wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die die Daten für das Ereignis enthält.</param>
+        </member>
+        <member name="M:SetupExample.Steps.LicenseStep.LicenseStep_FocusChanged(System.Object,InstallerFramework.Dialog.FocusChangedEventArgs)">
+            <summary>
+            Wird ausgeführt, wenn sich der Fokus dieser Stufe im Dialog ändern.
+            </summary>
+            <param name="sender">Die Ereignisquelle des <see cref="E:InstallerFramework.Dialog.DialogStep.FocusChanged"/>-Events.</param>
+            <param name="e">Ereignisdaten für die Änderung des Fokus dieser Stufe im übergeorneten Dialog.</param>
+        </member>
+        <member name="T:SetupExample.Steps.InstallPath">
+            <summary>
+            Legt den Pfad für die Installation fest.
+            </summary>
+            <summary>
+            Legt den Pfad der Installation fest.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallPath.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.InstallPath"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallPath.ButtonBrowse_Click(System.Object,System.EventArgs)">
+            <summary>
+            Wird ausgeführt, wenn auf den 'Browse'-Button geklickt wird.
+            </summary>
+            <param name="sender">Objekt, das das Ereignis ausgelöst hat.</param>
+            <param name="e">Ereignisdaten für das Klicken auf den Button.</param>
+        </member>
+        <member name="M:SetupExample.Steps.InstallPath.InstallPath_Navigate(System.Object,InstallerFramework.Dialog.FocusChangedEventArgs)">
+            <summary>
+            Wird ausgeführt, wenn mit dem Dialog navigiert wird und diese Stufe fokussiert ist.
+            </summary>
+            <param name="sender">Ereignisquelle für das <see cref="E:InstallerFramework.Dialog.DialogStep.FocusChanged"/>-Event.</param>
+            <param name="e">Ereignisdaten für die Navigation mit dem Dialog.</param>
+        </member>
+        <member name="F:SetupExample.Steps.InstallPath.label1">
+            <summary>
+            Label mit deskriptivem Text für den Benutzer.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallPath.buttonBrowse">
+            <summary>
+            Button zum Aussuchen eines Installationspfades.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallPath.textBoxPath">
+            <summary>
+            TextBox, die den Installationspfad enthält.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallPath.labelPath">
+            <summary>
+            Label mit einem deskriptiven Text, der das Eingabefeld für den Installationspfad verweist.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.InstallPath.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.InstallPath.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.InstallPath.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="T:SetupExample.SetupForm">
+            <summary>
+            Dialog für die Installation von Software auf dem System.
+            </summary>
+            <summary>
+            Oberfläche des Setup-Assistenten.
+            </summary>
+        </member>
+        <member name="F:SetupExample.SetupForm.sidebar1">
+            <summary>
+            Die Sidebar des Dialogs.
+            </summary>
+        </member>
+        <member name="F:SetupExample.SetupForm.components">
+            <summary>
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:SetupExample.SetupForm.Dispose(System.Boolean)">
+            <summary>
+            Bereinigt alle verwendeten Ressourcen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen bereinigt werden sollen; sonst false.</param>
+        </member>
+        <member name="M:SetupExample.SetupForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:SetupExample.SetupForm.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.SetupForm"/>-Klasse.
+            </summary>
+        </member>
+        <member name="T:SetupExample.Steps.WelcomeStep">
+            <summary>
+            Startseite für den Setup-Assistenten.
+            </summary>
+            <summary>
+            Erste Stufe des Installationsdialogs.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.WelcomeStep.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.WelcomeStep.labelHeader">
+            <summary>
+            Label mit der Überschrift.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.WelcomeStep.labelWelcome">
+            <summary>
+            Label mit dem Begrüßungstext.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.WelcomeStep.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.WelcomeStep.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.WelcomeStep.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.WelcomeStep"/>-Klasse.
+            </summary>
+        </member>
+        <member name="T:SetupExample.Steps.FinishStep">
+            <summary>
+            Die letzte Stufe des Installers.
+            </summary>
+            <summary>
+            Fertigstellen der Installation.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.FinishStep.label1">
+            <summary>
+            Label, das einen Text anzeigt.
+            </summary>
+        </member>
+        <member name="F:SetupExample.Steps.FinishStep.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.FinishStep.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:SetupExample.Steps.FinishStep.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.FinishStep.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:SetupExample.Steps.FinishStep"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Steps.FinishStep.Finish_FocusChanged(System.Object,InstallerFramework.Dialog.FocusChangedEventArgs)">
+            <summary>
+            Tritt ein, wenn das FocusChanged-Event ausgelöst wurde.
+            </summary>
+            <param name="sender">Ereignisquelle des Ereignisses.</param>
+            <param name="e">Ereignisdaten für das FocusChanged-Event.</param>
+        </member>
+        <member name="T:SetupExample.Program">
+            <summary>
+            Enthält den Haupteinstiegspunkt des Programms.
+            </summary>
+        </member>
+        <member name="M:SetupExample.Program.Main">
+            <summary>
+            Haupteinstiegspunkt des Programms.
+            </summary>
+        </member>
+    </members>
+</doc>

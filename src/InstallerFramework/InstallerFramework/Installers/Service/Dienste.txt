@@ -1,0 +1,44 @@
+﻿Spezifische Zugriffsrechte für den ServiceControlManager:
+--------------------------------------------------------------------------------------------------------------
+SC_MANAGER_ALL_ACCESS (0xF003F)         Includes STANDARD_RIGHTS_REQUIRED, in addition to all access rights in this table.
+SC_MANAGER_CREATE_SERVICE (0x0002)      Required to call the CreateService function to create a service object and add it to the database.
+SC_MANAGER_CONNECT (0x0001)             Required to connect to the service control manager.
+SC_MANAGER_ENUMERATE_SERVICE (0x0004)   Required to call the EnumServicesStatusEx function to list the services that are in the database.
+SC_MANAGER_LOCK (0x0008)                Required to call the LockServiceDatabase function to acquire a lock on the database.
+SC_MANAGER_MODIFY_BOOT_CONFIG (0x0020)  Required to call the NotifyBootConfigStatus function.
+SC_MANAGER_QUERY_LOCK_STATUS (0x0010)   Required to call the QueryServiceLockStatus function to retrieve the lock status information for the database.
+--------------------------------------------------------------------------------------------------------------
+
+
+Allgemeine Zugriffsrechte auf den ServiceControlManager:
+--------------------------------------------------------------------------------------------------------------
+GENERIC_READ     STANDARD_RIGHTS_READ, SC_MANAGER_ENUMERATE_SERVICE, SC_MANAGER_QUERY_LOCK_STATUS
+GENERIC_WRITE    STANDARD_RIGHTS_WRITE, SC_MANAGER_CREATE_SERVICE, SC_MANAGER_MODIFY_BOOT_CONFIG
+GENERIC_EXECUTE  STANDARD_RIGHTS_EXECUTE, SC_MANAGER_CONNECT, SC_MANAGER_LOCK
+GENERIC_ALL      SC_MANAGER_ALL_ACCESS
+--------------------------------------------------------------------------------------------------------------
+
+
+Rechte der Benutzerkonten:
+--------------------------------------------------------------------------------------------------------------
+Remote authenticated users                  SC_MANAGER_CONNECT
+Local authenticated users 
+(LocalService und NetworkService)	        SC_MANAGER_CONNECT, SC_MANAGER_ENUMERATE_SERVICE, SC_MANAGER_QUERY_LOCK_STATUS, STANDARD_RIGHTS_READ
+LocalSystem                                 SC_MANAGER_CONNECT, SC_MANAGER_ENUMERATE_SERVICE, SC_MANAGER_MODIFY_BOOT_CONFIG, SC_MANAGER_QUERY_LOCK_STATUS, STANDARD_RIGHTS_READ
+Administrators                              SC_MANAGER_ALL_ACCESS
+--------------------------------------------------------------------------------------------------------------
+
+
+Zugriffsrechte auf Dienste
+--------------------------------------------------------------------------------------------------------------
+SERVICE_ALL_ACCESS (0xF01FF)          Includes STANDARD_RIGHTS_REQUIRED in addition to all access rights in this table.
+SERVICE_CHANGE_CONFIG (0x0002)        Required to call the ChangeServiceConfig or ChangeServiceConfig2 function to change the service configuration. Because this grants the caller the right to change the executable file that the system runs, it should be granted only to administrators.
+SERVICE_ENUMERATE_DEPENDENTS (0x0008) Required to call the EnumDependentServices function to enumerate all the services dependent on the service.
+SERVICE_INTERROGATE (0x0080)          Required to call the ControlService function to ask the service to report its status immediately.
+SERVICE_PAUSE_CONTINUE (0x0040)       Required to call the ControlService function to pause or continue the service.
+SERVICE_QUERY_CONFIG (0x0001)         Required to call the QueryServiceConfig and QueryServiceConfig2 functions to query the service configuration.
+SERVICE_QUERY_STATUS (0x0004)         Required to call the QueryServiceStatusEx function to ask the service control manager about the status of the service.
+SERVICE_START (0x0010)                Required to call the StartService function to start the service.
+SERVICE_STOP (0x0020)                 Required to call the ControlService function to stop the service.
+SERVICE_USER_DEFINED_CONTROL(0x0100)  Required to call the ControlService function to specify a user-defined control code.
+--------------------------------------------------------------------------------------------------------------

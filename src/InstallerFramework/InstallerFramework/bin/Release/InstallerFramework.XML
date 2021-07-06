@@ -1,0 +1,2830 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InstallerFramework</name>
+    </assembly>
+    <members>
+        <member name="T:InstallerFramework.Installers.MainInstaller">
+            <summary>
+            Ein übergeordneter Installer, der andere Installationsvorgänge koordiniert und Informationen für die Deinstallation speichert.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.AdvancedInstaller">
+            <summary>
+            Basisklasse für die Installation von Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Base.AdvancedInstaller.currentSteps">
+            <summary>
+            Die aktuelle Stufe.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.AdvancedInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.AdvancedInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.AdvancedInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Führt die Installation aus. 
+            </summary>
+            <param name="stateSaver">Ein <see cref="T:System.Collections.IDictionary"/>, in dem die zum Ausführen eines Commit-, Rollback- oder Deinstallationsvorgangs erforderlichen Daten gespeichert werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.AdvancedInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Führt die Deinstallation aus.
+            </summary>
+            <param name="savedState">Ein <see cref="T:System.Collections.IDictionary"/> mit Informationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.AdvancedInstaller.OnStepChanged(System.Int32)">
+            <summary>
+            Ruft das <see cref="E:InstallerFramework.Base.AdvancedInstaller.StepChanged"/>-Event auf.
+            </summary>
+            <param name="oldStep">Die vorherige Stufe.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.AdvancedInstaller.OnInstallException(System.Exception)">
+            <summary>
+            Ruft das <see cref="E:InstallerFramework.Base.AdvancedInstaller.InstallException"/>-Event auf.
+            </summary>
+            <param name="ex">Die gefangene Ausnahme.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.AdvancedInstaller.Initialize">
+            <summary>
+            Initialisiert die Felder und Eigenschaften.
+            </summary>
+        </member>
+        <member name="E:InstallerFramework.Base.AdvancedInstaller.StepChanged">
+            <summary>
+            Tritt ein, wenn sich die aktuelle Stufe des Installers ändert.
+            </summary>
+        </member>
+        <member name="E:InstallerFramework.Base.AdvancedInstaller.InstallException">
+            <summary>
+            Tritt ein, wenn ein untergeordneter Installer einen Fehler verursacht.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.AdvancedInstaller.MaxSteps">
+            <summary>
+            Gibt an oder legt fest, wie viele Stufen der Installer insgesamt ausführt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.AdvancedInstaller.Log">
+            <summary>
+            Gibt an oder legt fest, welcher <see cref="T:InstallerFramework.Base.InstallLog"/> für das Aufzeichnen des Installationsvorgang verwendet wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.AdvancedInstaller.ThrowExceptions">
+            <summary>
+            Gibt an oder legt fest, ob Ausnahmen geworfen werden. Der Standardwert ist true.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.AdvancedInstaller.CurrentSteps">
+            <summary>
+            Gibt an, bei welcher Stufe die Ausführung des Installers ist. 
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.AdvancedInstaller.Installers">
+            <summary>
+            Gibt an oder legt fest, welche Installer ausgeführt werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.AdvancedInstaller.TransactedInstall">
+            <summary>
+            Gibt an oder legt fest, was passiert, wenn die Installation fehlschlägt. Der Standard-Wert ist 'TransactedInstallMode.RollbackAllOnError'.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.MainInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.MainInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.MainInstaller.Install">
+            <summary>
+            Installiert die Software auf dem System.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.MainInstaller.Uninstall">
+            <summary>
+            Führt die Deinstallation aus.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.MainInstaller.UninstallDataFile">
+            <summary>
+            Gibt an oder legt fest, welche Datei die für die Deinstallation notwendingen Daten enthält.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.DirectoryDeleteMode">
+            <summary>
+            Bedingung für das Löschen der Verzeichnisse bei der Deinstallation.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DirectoryDeleteMode.DeleteIfNotContainsFiles">
+            <summary>
+            Das Verzeichnis wird bei der Deinstallation oder beim Rollback nur gelöscht, wenn es keine Dateien enthält.
+            Leere Unterordner werden ignoriert.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DirectoryDeleteMode.DeleteIfEmpty">
+            <summary>
+            Das Verzeichnis wird bei der Deinstallation oder beim Rollback nur gelöscht, wenn es keine Elemente enthält.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DirectoryDeleteMode.DeleteAlways">
+            <summary>
+            Das Verzeichnis wird bei der Deinstallation gelöscht.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DirectoryDeleteMode.DeleteNever">
+            <summary>
+            Das Verzeichnis wird bei der Deinstallation nicht gelöscht.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.InstallerDirectory">
+            <summary>
+            Enthält Informationen für die Installation eines Verzeichnisses.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.InstallerDirectory.accessControl">
+            <summary>
+            Private Variable für die <see cref="P:InstallerFramework.Installers.InstallerDirectory.AccessControl"/>-Eigenschaft.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerDirectory.Attributes">
+            <summary>
+            Gibt an oder legt fest, welche Attribute das Verzeichnis bekommt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerDirectory.ParentDirectory">
+            <summary>
+            Gibt an oder legt fest, welches das übergeordnete Verzeichnis ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerDirectory.AccessControl">
+            <summary>
+            Gibt an oder legt fest, welche Zugriffsberechtigungen für das Verzeichnis festgelegt werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerDirectory.DirectoryName">
+            <summary>
+            Gibt an oder legt fest, wie der Name des Verzeichnisses ohne Pfadangabe  ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerDirectory.FullPath">
+            <summary>
+            Gibt an, in welchem Pfad das Verzeichnis erstellt wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerDirectory.DeleteMode">
+            <summary>
+            Gibt an oder legt fest, unter welchen Bedingungen das Verzeichnis bei der Deinstallation oder beim Rollback gelöscht wird.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceProperties">
+            <summary>
+            Erweiterte Diensteigenschaften.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.Description">
+            <summary>
+            Gibt an oder legt fest, welche Beschrebung der Dienst hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.FailureActions">
+            <summary>
+            Gibt an oder legt fest, welche Aktionen im Fehlerfall ausgeführt werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.FailureActionsFlag">
+            <summary>
+            Gibt an oder legt fest, wann die Aktionen im Fehlerfall ausgeführt werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.PreshutdownInfo">
+            <summary>
+            Gibt an oder legt fest, wann der Dienst herunterfährt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.SidInfo">
+            <summary>
+            Gibt an oder legt fest, welchen SID-Typ der Dienst hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.DelayedAutoStartInfo">
+            <summary>
+            Gibt an oder legt fest, mit welcher Verzögerung der Dienst startet.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceProperties.RequiredPrivilegesInfo">
+            <summary>
+            Gibt an oder legt fest, welche Rechte für den Dienst erforderlich sind.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.FileSystemInstaller">
+            <summary>
+            Installiert Dateien und Verzeichnisse auf dem System.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.FileSystemInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.FileSystemInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.FileSystemInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Führt die Installation aus. 
+            </summary>
+            <param name="stateSaver">Ein <see cref="T:System.Collections.IDictionary"/>, in dem die zum Ausführen eines Commit-, Rollback- oder Deinstallationsvorgangs erforderlichen Daten gespeichert werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.FileSystemInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Führt die Deinstallation aus.
+            </summary>
+            <param name="savedState">Ein <see cref="T:System.Collections.IDictionary"/> mit Informationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.FileSystemInstaller.Directories">
+            <summary>
+            Gibt an oder legt fest, welche Verzeichnisse installiert werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.FileSystemInstaller.Files">
+            <summary>
+            Gibt an oder legt fest, welche Dateinen installiert werden.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.InstallExceptionEventArgs">
+            <summary>
+            Enthält Informationen für das <see cref="T:InstallerFramework.Base.InstallException"/>-Event.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallExceptionEventArgs.#ctor(System.Exception)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallExceptionEventArgs"/>-Klasse.
+            </summary>
+            <param name="catchedException">Die abgefangene Ausnahme.</param>
+        </member>
+        <member name="P:InstallerFramework.Base.InstallExceptionEventArgs.CatchedException">
+            <summary>
+            Gibt an, welche Ausnahme gefangen wurde.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.TransactedInstallMode">
+            <summary>
+            Möglichkeiten der Fehlerbehandlung während der Installation.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Base.TransactedInstallMode.Ignore">
+            <summary>
+            Ignoriert den Fehler.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Base.TransactedInstallMode.RollbackAllOnError">
+            <summary>
+            Setzt die gesamte Installation im Fehlerfall zurück.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Base.TransactedInstallMode.RollbackOneOnError">
+            <summary>
+            Setzt nur die Installation zurück, die den Fehler verursachte.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.StringProperty">
+            <summary>
+            Auflistung von Software-Eigenschaften, die im String-Format angegeben werden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.DisplayName">
+            <summary>
+            Der in der Systemsteuerung angezeigte Name der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.Publisher">
+            <summary>
+            Der Veröffentlicher der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.HelpLink">
+            <summary>
+            Ein Hilfe-Link, zum Beipiel eine Webseite.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.Comments">
+            <summary>
+            In der Systemsteuerung angezeigte Kommentare.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.Contact">
+            <summary>
+            Kontakt zum Herausgeber der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.InstallLocation">
+            <summary>
+            Das Verzeichnis, in dem die Software installiert ist.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.ProductID">
+            <summary>
+            Die Id der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.InstallSource">
+            <summary>
+            Das Verzeichnis, aus dem die Installation gestartet wurde.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.Readme">
+            <summary>
+            Der Pfad zu einer Readme-Datei.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.RegCompany">
+            <summary>
+            Die registrierte Firma.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.RegOwner">
+            <summary>
+            Der registrierte Benutzer.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.UrlInfoAbout">
+            <summary>
+            Eine URL, bei der es Informationen über die Software gibt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.HelpTelephone">
+            <summary>
+            Eine Telefonnummer für Support zur Software. 
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.UrlUpdateInfo">
+            <summary>
+            Eine URL, bei der es Informationen über Updates gibt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.DisplayVersion">
+            <summary>
+            Die angezeigte Version der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.UninstallString">
+            <summary>
+            Der Pfad zu einem Deinstallationsprogramm.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.StringProperty.DisplayIcon">
+            <summary>
+            Der Pfad zum Icon der Software.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.DwordProperty">
+            <summary>
+            Auflistung von Software-Eigenschaften, die im DWORD-Format angegeben werden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.VersionMajor">
+            <summary>
+            Die Hauptversion der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.VersionMinor">
+            <summary>
+            Die Nebenversion der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.SystemComponent">
+            <summary>
+            Gibt an, ob die Software eine Systemkomponente ist. Erlaubt sind die Werte 1 und 0. 
+            Systemkomponenten werden nicht in der Systemsteuerung angezeigt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.Version">
+            <summary>
+            Die Version der Software.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.EstimatedSize">
+            <summary>
+            Der Speicherplatz, den die Software benötigt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.NoModify">
+            <summary>
+            Gibt an, ob die Software nicht geändert werden kann. Erlaubt sind die Werte 1 und 0.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.NoRepair">
+            <summary>
+            Gibt an, ob die Software nicht repariert werden kann. Erlaubt sind die Werte 1 und 0.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.NoRemove">
+            <summary>
+            Gibt an, ob die Software nicht entfernt werden kann. Erlaubt sind die Werte 1 und 0.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.DwordProperty.Language">
+            <summary>
+            Die Sprache der Software.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.StepInfo">
+            <summary>
+            Verwaltet die Stufenanzahl des Fortschritts von Installationsvorgängen.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.StepInfo"/>Klasse.
+            </summary>
+            <param name="install">Die Anzahl der Stufen für die Installation.</param>
+            <param name="uninstall">Die Anzahl der Stufen für Deinstallation.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.op_Addition(InstallerFramework.Base.StepInfo,InstallerFramework.Base.StepInfo)">
+            <summary>
+            Addiert die Stufenanzahl zweier <see cref="T:InstallerFramework.Base.StepInfo"/>-Instanzen.
+            </summary>
+            <param name="s1">Der erste Summand.</param>
+            <param name="s2">Der zweite Summand.</param>
+            <returns>Eine <see cref="T:InstallerFramework.Base.StepInfo"/>-Instanz, deren Stufenanzahl der Summe der Stufenanzahlen der beiden Summanden entspricht.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.op_Subtraction(InstallerFramework.Base.StepInfo,InstallerFramework.Base.StepInfo)">
+            <summary>
+            Subtrahiert die Stufenanzahl zweier <see cref="T:InstallerFramework.Base.StepInfo"/>-Instanzen.
+            </summary>
+            <param name="s1">Der Minuend.</param>
+            <param name="s2">Der Subtrahend.</param>
+            <returns>Eine <see cref="T:InstallerFramework.Base.StepInfo"/>-Instanz, deren Stufenanzahl der Differenz der Stufenanzahlen von Minuend und Subtrahend entspricht.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.op_Equality(InstallerFramework.Base.StepInfo,InstallerFramework.Base.StepInfo)">
+            <summary>
+            Prüft zwei StepInfo-Instanzen auf Gleichheit.
+            </summary>
+            <param name="s1">Erste StepInfo-Instanz.</param>
+            <param name="s2">Zweite StepInfo-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.op_Inequality(InstallerFramework.Base.StepInfo,InstallerFramework.Base.StepInfo)">
+            <summary>
+            Prüft zwei SztepInfo-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="s1">Erste StepInfo-Instanz.</param>
+            <param name="s2">Zweite StepInfo-Instanz.</param>
+            <returns>True, wenn die Instanzen verschieden sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.GetHashCode">
+            <summary>
+            Berechnet eine Hashfunktion dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.Equals(System.Object)">
+            <summary>
+            Vergleicht eine Instanz der StepInfo-Klasse mit einem Objekt.
+            </summary>
+            <param name="obj">Das zu vergleichende Objekt.</param>
+            <returns>True, wenn das Objekt mit dieser Instanz übereinstimmt.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.Add(InstallerFramework.Base.StepInfo)">
+            <summary>
+            Addiert zwei StepInfo-Instanzen.
+            </summary>
+            <param name="si">Die zu dieser Instanz zu addierende Instanz.</param>
+            <returns>Die Summe der StepInfo-Instanzen.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepInfo.Subtract(InstallerFramework.Base.StepInfo)">
+            <summary>
+            Subtrahiert zwei StepInfo-Instanzen.
+            </summary>
+            <param name="si">Die von dieser Instanz zu subtrahierende Instanz.</param>
+            <returns>Die Differenz der StepInfo-Instanzen.</returns>    
+        </member>
+        <member name="P:InstallerFramework.Base.StepInfo.Nothing">
+            <summary>
+            Gibt eine <see cref="T:InstallerFramework.Base.StepInfo"/>-Instanz an, deren Anzahl an Stufen null ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.StepInfo.InstallSteps">
+            <summary>
+            Gibt an oder legt fest, wie groß die Anzahl der Stufen für die Installation ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.StepInfo.UninstallSteps">
+            <summary>
+            Gibt an oder legt fest, wie groß die Anzahl der Stufen für die Deinstallation ist.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.SoftwareInfoFilter">
+            <summary>
+            Methode zum Filtern von auf dem System installierter Software.
+            </summary>
+            <param name="info">Das zu überprüfende Programm.</param>
+            <returns>Gibt an, ob das Programm die Filter-Kriterien erfüllt.</returns>
+        </member>
+        <member name="T:InstallerFramework.Base.SoftwareDetector">
+            <summary>
+            Findet Software, die auf dem System installiert ist.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.SoftwareDetector.GetSoftware">
+            <summary>
+            Findet alle installierten Programme auf dem System.
+            </summary>
+            <returns>Ein <see cref="T:InstallerFramework.Base.SoftwareInfo"/>-Array mit den installierten Programmen.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.SoftwareDetector.FilterSoftware(InstallerFramework.Base.SoftwareInfoFilter)">
+            <summary>
+            Durchsucht alle installierte Programme.
+            </summary>
+            <param name="filter">Der Filter, mit dem das gewünschte Programm ermittelt wird. </param>
+            <returns>Das gefundene Program oder null, wenn keines gefunden wurde.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.SoftwareDetector.SoftwareExists(System.String,System.Boolean)">
+            <summary>
+            Prüft, ob ein Programm mit einer bestimmten ProductGuid existiert.
+            </summary>
+            <param name="productGuid">Die ProductGuid des installierten Programms.</param>
+            <returns>Es wird zurückgegeben, ob das Programm existiert.</returns>
+            <param name="allUsers">Gibt an, ob nach Software gesucht wird, die für alle Benutzer installiert ist.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.SoftwareDetector.SoftwareExists(System.String)">
+            <summary>
+            Prüft, ob ein Programm mit einer bestimmten ProductGuid existiert.
+            </summary>
+            <param name="productGuid">Die ProductGuid des installierten Programms.</param>
+            <returns>Es wird zurückgegeben, ob das Programm existiert.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.SoftwareDetector.GetSoftware(Microsoft.Win32.RegistryKey)">
+            <summary>
+            Sammelt Informationen über ein Programm, das in der Registry verzeichnet ist.
+            </summary>
+            <param name="sub">Der <see cref="T:Microsoft.Win32.RegistryKey"/> in 'HKLM_LocalMachine\Software\Microsoft\Windows\CurrentVersion\Uninstall'.</param>
+            <returns>Das gefundene Programm wird zurückgegeben.</returns>
+        </member>
+        <member name="T:InstallerFramework.Installers.ShortcutInstaller">
+            <summary>
+            Installiert Verknüpfungen zu Dateien und Verzeichnissen.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.ShortcutInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.ShortcutInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.ShortcutInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Installiert die Verknüpfung.
+            </summary>
+            /// <param name="stateSaver">Ein System.Collections.IDictionary, in dem zum Ausführen des Commit-, Rollback- oder Deinstallationsvorgangs erforderliche Daten gespeichert werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.ShortcutInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Löscht die Verknüpfung.
+            </summary>
+            <param name="savedState">Ein System.Collections.IDictionary mit AnInformationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.ShortcutInstaller.CreateShortcut">
+            <summary>
+            Erstellt eine Verknüpfung auf dem System.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.TargetPath">
+            <summary>
+            Gibt an oder legt fest, welchen Pfad das Ziel der Verknüpfung hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.LinkPath">
+            <summary>
+            Gibt an oder legt fest, welchen Dateipfad die Verknüpfung hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.WindowState">
+            <summary>
+            Gibt an oder legt fest, welchen Anzeigestatus das Fensters hat, das durch die Vreknüpfung geöffnet wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.Arguments">
+            <summary>
+            Gibt an oder legt fest, welche Kommadozeilenargumente übergeben werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.WorkingDirectory">
+            <summary>
+            Gibt an oder legt fest, welches das Arbeitsverzeichnis des Ziels der Verknüpfung ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.Description">
+            <summary>
+            Gibt an oder legt fest, welche Beschreibung der Verknüpfung zugeordnet wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.IconLocation">
+            <summary>
+            Gibt an oder legt fest, welchen Pfad das Icons hat, das der Verknüpfung zugewiesen wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.ShortcutInstaller.HotKey">
+            <summary>
+            Gibt an oder legt fest, welche Tastenkombination der Verknüpfung zugeordnet wird. Es muss eine Modifier-Flag enthalten sein.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceType">
+            <summary>
+            Verschiedene Dienst-Typen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceType.ServiceKernelDriver">
+            <summary>
+            Ein Kernel-Treiber.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceType.ServiceFileSystemDriver">
+            <summary>
+            Dateisystem-Treiber, der auch ein Kernel-Treiber ist.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceType.ServiceWin32OwnProcess">
+            <summary>
+            Dienst, der als eigener Prozess ausgeführt wird.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceType.ServiceWin32ShareProcess">
+            <summary>
+            Dienst, der einen Prozess mit anderen Diensten gemeinsam nutzt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceType.ServiceInteractiveProcess">
+            <summary>
+            Dienst, der auf dem Desktop zugreifen kann.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceStart">
+            <summary>
+            Optionen für den Start des Dienstes.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceStart.ServiceBootStart">
+            <summary>
+            Ein Gerätetreiber, der vom Boot-Loader gestartet wird, bevor das Betriebssystem geladen wird. 
+            Dieser Wert kann nur dür Treiber-Dienste verwendet werden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceStart.ServiceSystemStart">
+            <summary>
+            Ein Geräte-Treiber, der von der 'IoInitSystem'-Funktion während der Initialisierung des Kernels gestartet wird. 
+            Dieser Wert kann nur für Treiber-Dienste verwendet werden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceStart.ServiceAutoStart">
+            <summary>
+            Ein Dienst, der bei jedem System-Start automatisch von 'Service Control Manager' gestartet wird.
+            </summary>        
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceStart.ServiceDemandStart">
+            <summary>
+            Ein Dienst, der vom 'Service Control Manager' gestartet wird, wenn ein Prozess die 'StartService'-Funktion aufruft.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceStart.ServiceDisabled">
+            <summary>
+            Ein deaktivierter Dienst, der nicht gestartet werden kann. Startversuche verursachen der Fehler 'ERROR_SERVICE_DISABLED'.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceError">
+            <summary>
+            Schweregrad der Fehler und ausgeführte Aktion, wenn der Start des Dienstes fehlschlägt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceError.Ignore">
+            <summary>
+            Das System ignoriert den Fehler und fährt mit dem Start fort. 
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceError.Normal">
+            <summary>
+            Das System verzeichnet den Fehler in der Ereignisanzeige und fährt mit dem Systemstart fort.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceError.Severe">
+            <summary>
+            Das System verzeichnet den Fehler in der Ereignisanzeige. 
+            Wenn mit der letzten als funktionierend bekannten Konfiguration gestartet wird, wird weiterhin gestartet.
+            Anderenfalls wird das System mit der letztem als funktionierend bekannten Konfiguration neu gestartet.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceError.Critical">
+            <summary>
+            Das System verzeichnet den Fehler in der Ereignisanzeige, wenn es möglich ist. 
+            Wenn mit der letzten als funktionierend bekannten Konfiguration gestartet wird, schlägt der Start fehl.
+            Anderenfalls wird das System mit der letztem als funktionierend bekannten Konfiguration neu gestartet.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods">
+            <summary>
+            Importierte Methoden zum Steuern von Diensten.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.CreateService(System.IntPtr,System.String,System.String,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Erstellt einen neuen Dienst.
+            </summary>
+            <param name="hSCManager">Handle des zur ServiceControlManager-Datenbank. Das Handle muss die Berechtigung 'SC_MANAGER_CREATE_SERVICE' haben.</param>
+            <param name="lpServiceName">Name des Dienstes, maximal 256 Zeichen.</param>
+            <param name="lpDisplayName">Angezeigter Name des Dienstes, maximal 256 Zeichen.</param>
+            <param name="dwDesiredAccess">Zugriffsrechte, mit denen der Dienst erstellt wird.</param>
+            <param name="dwServiceType">Typ des Dienstes.</param>
+            <param name="dwStartType">Starttyp des Dienstes.</param>
+            <param name="dwErrorControl">Ausgeführte Aktionen, wenn das Laden des Dienstes fehlschlägt.</param>
+            <param name="lpBinaryPathName">Vollständiger Pfad zur ausführbaren Datei des Dienstes. Wenn der Pfad Leerzeichen enthält, muss die Pfadangabe in Anführungszeichen eingeschlossen werden.</param>
+            <param name="lpLoadOrderGroup">Start-Gruppe des Dienstes oder null.</param>
+            <param name="lpdwTagId">Nummer des Dienststarts oder null.</param>
+            <param name="lpDependencies">Dienste, von denen der zu erstellende Dienst abhängig ist.</param>
+            <param name="lpServiceStartName">Das Konto, unter dem der Dienst läuft. Mögliche Werte sind NULL (LocalSystem), 'NT AUTHORITY\LocalService' (LocalService), 'NT AUTHORITY\NetworkService' (NetworkService) oder ein Benutzeraccount. Für Dienste mit der Eigenschaft 'SERVICE_INTERACTIVE_PROCESS' muss dieser Parameter null sein.</param>
+            <param name="lpPassword">Passwort, wenn der Dienst unter einem passwortgeschütztem Konto läuft, sonst null.</param>
+            <returns>Das Handle des Dienstes, wenn der Dienst erfolgreich erstellt wurde, sonst NULL. Mit GetLastError() kann im Fehlerfall der FehlerCode geholt werden.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.ControlService(System.IntPtr,InstallerFramework.Installers.Service.NativeMethods.ServiceControl,InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS@)">
+            <summary>
+            Lässt den Dienst eine Aktion ausführen.
+            </summary>
+            <param name="hService">Handle des Dienstes. Die Rechte dieses Handles müssen ausreichen, um die Aktion 'dwControl' auszuführen.</param>
+            <param name="dwControl">Die auszuführende Aktion. Die Werte 128 bis 255 sind benutzerdefinierte Aktionen, die mit der Berechtigung 'SERVICE_USER_DEFINED_CONTROL' ausgeführt werden können.</param>
+            <param name="lpServiceStatus">Der Status des Dienstes wird ausgegeben.</param>
+            <returns>True, wenn die Methode erfolgreich ausgeführt wurde, sonst false. Im Fehlerfall kann der Fehler mit GetLastError() geholt werden.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.OpenSCManager(System.String,System.String,System.UInt32)">
+            <summary>
+            Stellt eine Verbindung zum ServiceControlManager her un öffnet die anzugebende Dienst-Datenbank.
+            </summary>
+            <param name="machineName">Name des Computers oder NULL als Ersatz für 'localhost'.</param>
+            <param name="databaseName">Name der ServiceControlManager-Datenban. Der Standardwert ist 'SERVICES_ACTIVE_DATABASE', er wird verwendet, wenn der Parameter NULL ist.</param>
+            <param name="dwAccess">Zugriff zum ServiceControlManager. Er sollte mindestens 'SC_MANAGER_CONNECT' sein.</param>
+            <returns>Handle zur ServiceControlManager-Datenbank.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.OpenService(System.IntPtr,System.String,System.UInt32)">
+            <summary>
+            Öffnet einen existierenden Dienst. 
+            </summary>
+            <param name="hSCManager">Handle zur ServiceControlManager-Datenbank, das mit OpenSCManager() geholt werden kann.</param>
+            <param name="lpServiceName">Name des Dienstes.</param>
+            <param name="dwDesiredAccess">Zugriff zum Dienst.</param>
+            <returns>Handle zum Dienst, im Fehlerfall NULL.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.ChangeServiceConfig2(System.IntPtr,System.UInt32,System.IntPtr)">
+            <summary>
+            Ändert optionale Eigenschaften eines Dienstes.
+            </summary>
+            <param name="hService">Handle des Dienstes.</param>
+            <param name="dwInfoLevel">Angabe der zu ändernden Eigenschaft.</param>
+            <param name="lpInfo">Informationen über die Eigenschaft (optional).</param>
+            <returns>True, wenn die Methode erfolgreich ausgeführt wurde, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.CloseServiceHandle(System.IntPtr)">
+            <summary>
+            Schließt ein Handle zum ServiceControlManager oder zu einem Dienst.
+            </summary>
+            <param name="hSCObject">Das Handle des ServiceControlManagers, das mit OpenSCManager geholt wird, oder das Handle des Dienstes, das mit OpenService() oder CreateService() geholt werden kann.</param>
+            <returns>True, wenn das Handle erfolgreich geschlossen wurde, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.QueryServiceStatus(System.IntPtr,InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS@)">
+            <summary>
+            Ruft den Status des Dientes ab.
+            </summary>
+            <param name="hService">Handle zum Dienst.</param>
+            <param name="dwServiceStatus">Der Status des Dienstes wird ausgegeben.</param>
+            <returns>True, wenn die Methode erfolgreich ausgeführt wurde, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.NativeMethods.DeleteService(System.IntPtr)">
+            <summary>
+            Löscht einen Dienst, wenn er gerade nicht ausgeführt wird.
+            </summary>
+            <param name="hService">Das Handle des Dienstes, es muss die Berechtigung 'DELETE' haben.</param>
+            <returns>True, wenn das Ausführen der Methode erfolgreich war, sonst false. Im Fehlerfall kann der Fehlercode mit GetLastError() geholt werden.</returns>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods.ServiceControl">
+            <summary>
+            Unvollständiges Enum mit Befehlen an einen Dienst.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceControl.STOP">
+            <summary>
+            Beenden den Dienst.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceControl.PAUSE">
+            <summary>
+            Hält den Dienst an.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceControl.CONTINUE">
+            <summary>
+            Setzt den Dienst fort.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceControl.INTERROGATE">
+            <summary>
+            Fragt den Dienst ab.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceControl.SHUTDOWN">
+            <summary>
+            Fährt den Dienst herunter.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods.ServiceState">
+            <summary>
+            Status eines Dienstes.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_STOPPED">
+            <summary>
+            Dienst ist beendet.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_START_PENDING">
+            <summary>
+            Dienst ist im Startvorgang.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_STOP_PENDING">
+            <summary>
+            Dienst ist im Stopvorgang.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_RUNNING">
+            <summary>
+            Dienst wird ausgeführt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_CONTINUE_PENDING">
+            <summary>
+            Dienst ist dabei, fortgesetzt zu werden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_PAUSE_PENDING">
+            <summary>
+            Dienst ist dabei, angehalten zu werden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ServiceState.SERVICE_PAUSED">
+            <summary>
+            Dienst ist angehalten.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS">
+            <summary>
+            Zugriff auf den Dienst. Bevor der angeforderte Zugriff gewährleistet wird, prüft das System die Berechtigung des anfragenden Prozesses.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_QUERY_CONFIG">
+            <summary>
+            Erforderlich, um die 'QueryServiceConfig' und 'QueryServiceConfig2'-Funktionen aufzurufen 
+            und um so die Dienstkonfiguration abzufragen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_CHANGE_CONFIG">
+            <summary>
+            Erforderlich, um die 'ChangeServiceConfig' und 'ChangeServiceConfig2'-Funktionen aufrufen zu können 
+            und um so die Dienstkonfiguration zu ändern.
+            Weil das dem Aufrufer das Recht gibt, die ausführbare Datei des Dienstes zu verändern, sollte 
+            es nur Administratorn vorbehalten sein.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_QUERY_STATUS">
+            <summary>
+            Erforderlich, um die 'QueryServiceStatusEx'-Funktion auszurufen und um 
+            so mit dem Service Control Manager den Status des Dienstes abzufragen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_ENUMERATE_DEPENDENTS">
+            <summary>
+            Erforderlich, um die 'EnumDependentServices'-Funktion aufzurufen und um so
+            alle von einem bestimmten Dienst abhängige Dienste aufzuzählen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_START">
+            <summary>
+            Erforderlich, um die 'StartService'-Funktion aufzurufen und damit den Dienst zu starten.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_STOP">
+            <summary>
+            Erforderlich, um die 'ControlService'-Funktion aufzurufen und damit den Dienst zu beenden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_PAUSE_CONTINUE">
+            <summary>
+            Erforderlich, um die 'ControlService'-Funktion aufzurufen und so den Dienst anzuhalten oder fortzusetzen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_INTERROGATE">
+            <summary>
+            Erforderlich, um die 'ControlService'-Funktion aufzurufen und damit den Dienst anfragt, seinen Status sofort anzugeben.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_USER_DEFINED_CONTROL">
+            <summary>
+            Erforderlich, um die 'ControlService'-Funktion aufzurufen und um so eine benutzerdefinierte Anweisung anzugeben. 
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.SERVICE_ALL_ACCESS">
+            <summary>
+            Includes STANDARD_RIGHTS_REQUIRED in addition to all access rights in this table.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.GENERIC_READ">
+            <summary>
+            Allgemeine Leseberechtigung.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.GENERIC_WRITE">
+            <summary>
+            Allgemeine Schreibberechtigung.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.GENERIC_EXECUTE">
+            <summary>
+            Allgemeine Berechtigung zum Ausfgühren.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.ACCESS_SYSTEM_SECURITY">
+            <summary>
+            Required to call the QueryServiceObjectSecurity or
+            SetServiceObjectSecurity function to access the SACL. The proper
+            way to obtain this access is to enable the SE_SECURITY_NAME
+            privilege in the caller's current access token, open the handle
+            for ACCESS_SYSTEM_SECURITY access, and then disable the privilege.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.DELETE">
+            <summary>
+            Required to call the DeleteService function to delete the service.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.READ_CONTROL">
+            <summary>
+            Required to call the QueryServiceObjectSecurity function to query
+            the security descriptor of the service object.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.WRITE_DAC">
+            <summary>
+            Required to call the SetServiceObjectSecurity function to modify
+            the Dacl member of the service object's security descriptor.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_ACCESS.WRITE_OWNER">
+            <summary>
+            Required to call the SetServiceObjectSecurity function to modify
+            the Owner and Group members of the service object's security
+            descriptor.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK">
+            <summary>
+            Werte für Berechtigungen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.DELETE">
+            <summary>
+            Berchtigung zum Löschen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.READ_CONTROL">
+            <summary>
+            Berechtigung zum Lesen für den Besitzer, Gruppen und DACL (Verwaltung der Berechtigungen).
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.WRITE_DAC">
+            <summary>
+            Berechtigung zum Schreiben der DACL.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.WRITE_OWNER">
+            <summary>
+            Berechtigung zum Schreiben für den Besitzer.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.SYNCHRONIZE">
+            <summary>
+            Berechtigung zum Synchronisieren.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.STANDARD_RIGHTS_REQUIRED">
+            <summary>
+            Erforderliche Standardrechte.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.STANDARD_RIGHTS_READ">
+            <summary>
+            Bestimmte Standardrechte zum Lesen, die sich auf GENERIC_READ beziehen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.STANDARD_RIGHTS_WRITE">
+            <summary>
+            Bestimmte Standardrechte zum Schreiben, die sich auf GENERIC_WRITE beziehen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.STANDARD_RIGHTS_EXECUTE">
+            <summary>
+            Bestimmte Standardrechte zum Ausführen, die sich auf GENERIC_EXECUTE beziehen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.STANDARD_RIGHTS_ALL">
+            <summary>
+            Alle Standardrechte.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.MAXIMUM_ALLOWED">
+            <summary>
+            Maximale Rechte.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.GENERIC_READ">
+            <summary>
+            Allgemeine Rechte zum Lesen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.GENERIC_WRITE">
+            <summary>
+            Allgemeine Rechte zum Lesen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.GENERIC_EXECUTE">
+            <summary>
+            Allgemeine Rechte Ausführen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.GENERIC_ALL">
+            <summary>
+            Allgemeine Rechte für Operationen mit einem Objekt (Lesen, Schreiben, Ausführen).
+            </summary>      
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.ACCESS_MASK.ACCESS_SYSTEM_SECURITY">
+            <summary>
+            Rechte zum Zugreifen auf die System-Sicherheit.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS">
+            <summary>
+            Berechtigungen für den ServiceControlManager.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_CONNECT">
+            <summary>
+            Erforderlich, um sich zum ServiceControlManager zu verbinden.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_CREATE_SERVICE">
+            <summary>
+            Erforderlich, um die CreateService()-Funktion aufzurufen und so einen Dienst zu erstellen und ihn zur Datenbank hinzuzufügen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_ENUMERATE_SERVICE">
+            <summary>
+            Erforderlich, um die EnumServicesStatusEx-Funktion aufzurufen und damit die Dienste in der Datenbank aufzulisten.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_LOCK">
+            <summary>
+            Erforderlich, um die LockServiceDatabase-Funktion aufzurufen und so eine Sperrung der Datenbank zu verursachen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_QUERY_LOCK_STATUS">
+            <summary>
+            Erforderlich, um die QueryServiceLockStatus-Funktion aufzurufen und so die Informationen über den Status der Sperrung für die Datenbank abzurufen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_MODIFY_BOOT_CONFIG">
+            <summary>
+            Erforderlich, um die NotifyBootConfigStatus-Funktion aufzurufen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.SC_MANAGER_ALL_ACCESS">
+            <summary>
+            Enthält STANDARD_RIGHTS_REQUIRED zusätzlich zu allen anderen Rechten.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.GENERIC_READ">
+            <summary>
+            Allgemeine Leserechte.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.GENERIC_WRITE">
+            <summary>
+            Allgemeine Rechte zum Ausführen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.GENERIC_EXECUTE">
+            <summary>
+            Allgemeine Rechte zum Ausführen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SCM_ACCESS.GENERIC_ALL">
+            <summary>
+            Allgemeine Rechte, um ein Operation am Objekt durchzuführen.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS">
+            <summary>
+            Status eines Dienstes.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwServiceType">
+            <summary>
+            Typ des Dienstes.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwCurrentState">
+            <summary>
+            Status des Dienstes.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwControlsAccepted">
+            <summary>
+            Akzeptierte Controls.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwWin32ExitCode">
+            <summary>
+            Exit-Code des Dienstes für das System.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwServiceSpecificExitCode">
+            <summary>
+            Exit-Code des Dienstes.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwCheckPoint">
+            <summary>
+            Die CheckPoint-Eigenschaft.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.NativeMethods.SERVICE_STATUS.dwWaitHint">
+            <summary>
+            Die WaitHint-Eigenschaft.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Dialog.NavigationType">
+            <summary>
+            Art der Navigation in einem <see cref="T:InstallerFramework.Dialog.DialogForm"/>.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.NavigationType.ProgramStepChanged">
+            <summary>
+            Die Stufe wurde mit dem Programm geändert.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.NavigationType.Next">
+            <summary>
+            Es wird weiter navigiert.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.NavigationType.Previous">
+            <summary>
+            Es wird zurück navigiert.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.NavigationType.Cancel">
+            <summary>
+            Es wird abgebrochen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.NavigationType.Finish">
+            <summary>
+            Es wird fertiggestellt, wenn die aktuelle Stufe die letzte ist.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Dialog.FocusChangedEventArgs">
+            <summary>
+            Enthält Ereignisdaten für das das Wechseln der Stufe in einem mehrstufigen Dialog.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.FocusChangedEventArgs.#ctor(InstallerFramework.Dialog.DialogForm,System.Boolean,InstallerFramework.Dialog.NavigationType)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Dialog.FocusChangedEventArgs"/>-Klasse.
+            </summary>
+            <param name="parent">Der Dialog, der das Ereignis ausgelöst hat.</param>
+            <param name="gotFocus">Gibt an, ob die aktuelle Stufe den Fokus bekam oder verlor.</param>
+            <param name="type">Gibt die Art der Navigation an.</param>
+        </member>
+        <member name="P:InstallerFramework.Dialog.FocusChangedEventArgs.NaviType">
+            <summary>
+            Gibt an, ob die Stufe den Fokus bekommen hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.FocusChangedEventArgs.ParentDialogForm">
+            <summary>
+            Gibt an, welcher Dialog die Änderung der Stufe verursachte.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.FocusChangedEventArgs.GotFocus">
+            <summary>
+            Gibt an, ob die aktuelle Stufe beim letzten Navigieren den Fokus bekam.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.FocusChangedEventArgs.CancelCurrentAction">
+            <summary>
+            Gibt an oder legt fest, ob die momentan ausgeführte Aktion des übergeordneten Dialogs abgebrochen wird.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.SCActionType">
+            <summary>
+            Auszuführende Aktion mit einem Dienst.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.SCActionType.SCActionNone">
+            <summary>
+            Keine Aktion.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.SCActionType.SCActionRestart">
+            <summary>
+            Dienst neu starten.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.SCActionType.SCActionReboot">
+            <summary>
+            System neu starten.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.SCActionType.SCActionRunCommand">
+            <summary>
+            Eine Anweisung ausführen.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceSidType">
+            <summary>
+            Der SID-Typ des Dienstes. Eine Änderung wird erst nach einem Neustart des Systems übernommen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceSidType.None">
+            <summary>
+            Kein spezifischer Typ. Die Benutzung dieses Typs reduziert Probleme mit der Kompatibilität. 
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceSidType.Unrestricted">
+            <summary>
+            Wenn der Dienst-Prozess erstellt wurde, wird die SID mit folgenden Eigenschaften hinzugefügt: SE_GROUP_ENABLED_BY_DEFAULT | SE_GROUP_OWNER.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.ServiceSidType.Restricted">
+            <summary>
+            Der Typ enthält SERVICE_SID_TYPE_UNRESTRICTED. Drei zusätzliche SIDs werden zu dem Prozess des Dienstes hinzugefügt:
+            <para>*World SID S-1-1-0
+              <para>*Service logon SID
+               <para>*Write-restricted SID S-1-5-33
+             </para></para></para>
+            Wenn mehrere Dienste in einem Prozess untergebracht sind und ein Dienst den Typ SERVICE_SID_TYPE_RESTRICTED hat, müssen alle anderen Dienste auch diesen Typ haben.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.InfoLevel">
+            <summary>
+            Information über einen Dienst, die geändert wird.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigDescription">
+            <summary>
+            Der 'lpInfo'-Parameter ist eine <see cref="T:InstallerFramework.Installers.Service.ServiceDescription"/>-Struktur. Es wird die Beschreibung des Dienstes angegeben.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigFailureActions">
+            <summary>
+            Der 'lpInfo'-Parameter ist eine <see cref="T:InstallerFramework.Installers.Service.ServiceFailureActions"/>-Struktur. Es werden Aktionen im Fehlerfall angegeben. wenn die 'SCActionReboot'-Aktion behandelt wird, dann muss die 'SEShutdownName'-Berechtigung angegeben sein.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigDelayedAutoStartInfo">
+            <summary>
+            Der 'lpinfo'-Parameter ist ein Zeiger zur <see cref="T:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo"/>-Struktur. Nicht unterstützt von Windows Server 2003 und Windows XP/2000.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigFailureActionsFlag">
+            <summary>
+            Der 'lpinfo'-Parameter ist ein Zeiger zur <see cref="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigFailureActionsFlag"/>-Struktur. Nicht unterstützt von Windows Server 2003 und Windows XP/2000.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigServiceSidInfo">
+            <summary>
+            Der 'lpinfo'-Parameter ist ein Zeiger zur <see cref="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigServiceSidInfo"/>-Struktur. Nicht unterstützt von Windows Server 2003 und Windows XP/2000.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigRequiredPrivilegesInfo">
+            <summary>
+            Der 'lpinfo'-Parameter ist ein Zeiger zur <see cref="T:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo"/>-Struktur. Nicht unterstützt von Windows Server 2003 und Windows XP/2000.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigPreshutdownInfo">
+            <summary>
+            Der 'lpinfo'-Parameter ist ein Zeiger zur 'service_Config_preshutdown_info'-Struktur. Nicht unterstützt von Windows Server 2003 und Windows XP/2000.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigTriggerInfo">
+            <summary>
+            Nicht implementiert, da erst ab Windows 7 unterstützt!
+            Der 'lpinfo'-Parameter ist ein Zeiger zur 'service_Config_trigger_info'-Struktur. Nicht unterstützt von Windows Server 2003/2008 und Windows Vista/XP/2000.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.InfoLevel.ServiceConfigPreferredNode">
+            <summary>
+            Nicht implementiert, da erst ab Windows 7 unterstützt!
+            Der 'lpinfo'-Parameter ist ein Zeiger zur 'service_Config_preferred_node'-Struktur.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceDescription">
+            <summary>
+            Beschreibung eines Dienstes.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDescription.op_Equality(InstallerFramework.Installers.Service.ServiceDescription,InstallerFramework.Installers.Service.ServiceDescription)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDescription.op_Inequality(InstallerFramework.Installers.Service.ServiceDescription,InstallerFramework.Installers.Service.ServiceDescription)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDescription.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDescription.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceDescription.Description">
+            <summary>
+            Die Beschreibung des Dienstes.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceFailureActions">
+            <summary>
+            Im Fehlerfall ausgeführte Aktionen.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActions.op_Equality(InstallerFramework.Installers.Service.ServiceFailureActions,InstallerFramework.Installers.Service.ServiceFailureActions)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActions.op_Inequality(InstallerFramework.Installers.Service.ServiceFailureActions,InstallerFramework.Installers.Service.ServiceFailureActions)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActions.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActions.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceFailureActions.ResetPeriod">
+            <summary>
+            Zeit, nach der die Fehleranzahl auf null zurückgesetzt wird in Sekunden. Es kann auch INFINITE angegeben werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceFailureActions.RebootMsg">
+            <summary>
+            Zu übertragene Nachricht beim Neustart des Dienstes.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceFailureActions.Command">
+            <summary>
+            Argumente für das ausgeführte Programm im Fehlerfall. Null verändert die Argumente nicht, string.Empty löscht sie.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceFailureActions.CountActions">
+            <summary>
+            Anzahl der Elemente im lpsaActions-Array.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceFailureActions.Actions">
+            <summary>
+            Zeiger zu einem <see cref="T:InstallerFramework.Installers.Service.SCAction"/>-Array.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo">
+            <summary>
+            Enthält die Einstellungen für veezögert, automatisch startetende Dienste.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo.op_Equality(InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo,InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo.op_Inequality(InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo,InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceDelayedAutoStartInfo.DelayedAutoStart">
+            <summary>
+            Gibt an oder legt fest, ob der Dienst verzögert (true) oder während des Boot-Vorgangs startet.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceFailureActionsFlag">
+            <summary>
+            Legt fest, wann Aktionen im Fehlerfall ausgeführt werden. Die Änderungen werden erst nach einem Neustart des Systems wirksam.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActionsFlag.op_Equality(InstallerFramework.Installers.Service.ServiceFailureActionsFlag,InstallerFramework.Installers.Service.ServiceFailureActionsFlag)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActionsFlag.op_Inequality(InstallerFramework.Installers.Service.ServiceFailureActionsFlag,InstallerFramework.Installers.Service.ServiceFailureActionsFlag)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActionsFlag.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceFailureActionsFlag.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceFailureActionsFlag.FailureActionsOnNonCrashFailures">
+            <summary>
+            Falls true, dann werden die Fehler-Aktionen ausgeführt, wenn der Dienst beendet ist ohne den SERVICE_STOPPED-Status mitzuteilen oder der Exitcode nicht 0 ist.
+            Falls false, dann werden die Fehler-Aktionen ausgeführt, wenn der Dienst beendet ist ohne den SERVICE_STOPPED-Status mitzuteilen.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceSidInfo">
+            <summary>
+            Informationen über den SID-typ des Dienstes. Ein Änderung wird erst nach dem Neustart des Systems übernommen.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceSidInfo.op_Equality(InstallerFramework.Installers.Service.ServiceSidInfo,InstallerFramework.Installers.Service.ServiceSidInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceSidInfo.op_Inequality(InstallerFramework.Installers.Service.ServiceSidInfo,InstallerFramework.Installers.Service.ServiceSidInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceSidInfo.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceSidInfo.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceSidInfo.ServiceSidType">
+            <summary>
+            Der SID-Typ des Dienstes.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo">
+            <summary>
+            Erforderliche Rechte eines Dienstes. Eine Änderung wird erst nach dem Neustart des Systems übernommen.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo.op_Equality(InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo,InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo.op_Inequality(InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo,InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceRequiredPrivilegesInfo.RequiredPrivileges">
+            <summary>
+            Multi-String, der die Rechte angibt. Elemente von Multi-Strings sind durch '\0' abgetrennt.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServicePreshutdownInfo">
+            <summary>
+            Enthält Einstellungen für das Herunterfahren.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServicePreshutdownInfo.op_Equality(InstallerFramework.Installers.Service.ServicePreshutdownInfo,InstallerFramework.Installers.Service.ServicePreshutdownInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServicePreshutdownInfo.op_Inequality(InstallerFramework.Installers.Service.ServicePreshutdownInfo,InstallerFramework.Installers.Service.ServicePreshutdownInfo)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServicePreshutdownInfo.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServicePreshutdownInfo.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServicePreshutdownInfo.PreshutdownTimeout">
+            <summary>
+            Timeout in Sekunden. Der Standardwert ist 3 Minuten.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.SCAction">
+            <summary>
+            Aktion, die der ServiceControlManager ausführt.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.SCAction.op_Equality(InstallerFramework.Installers.Service.SCAction,InstallerFramework.Installers.Service.SCAction)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Gleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen gleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.SCAction.op_Inequality(InstallerFramework.Installers.Service.SCAction,InstallerFramework.Installers.Service.SCAction)">
+            <summary>
+            Prüft zwei <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanzen auf Ungleichheit.
+            </summary>
+            <param name="obj1">Die erste <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <param name="obj2">Die zweite <see cref="T:InstallerFramework.Installers.Service.ServiceSidInfo"/>-Instanz.</param>
+            <returns>True, wenn die Instanzen ungleich sind, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.SCAction.ToPointer">
+            <summary>
+            Ermittelt einen Zeiger, der auf diese Instanz zeigt.
+            </summary>
+            <returns>Der Zeiger dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.SCAction.Equals(System.Object)">
+            <summary>
+            Prüft diese Instanz und ein Objekt auf Gleichheit.
+            </summary>
+            <param name="obj">Das Objekt, mit dem diese Instanz verglichen wird.</param>
+            <returns>True, wenn das Objekt dieser Instanz gleicht, sonst false.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.SCAction.GetHashCode">
+            <summary>
+            Berechnet den Hashcode dieser Instanz.
+            </summary>
+            <returns>Der Hashcode dieser Instanz wird zurückgegeben.</returns>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.SCAction.ActionType">
+            <summary>
+            Angabe der auszuführenden Aktion.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.SCAction.Delay">
+            <summary>
+            Zeitverzögerung in Millisekunden, nach der die Aktion ausgeführt wird.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.InstallException">
+            <summary>
+            Stellt eine Ausnahme dar, die während der Installation auftritt.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallException.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallException"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallException.#ctor(System.String)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallException"/>-Klasse.
+            </summary>
+            <param name="message">Nachricht, die den Fehler beschreibt.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallException"/>-Klasse.
+            </summary>
+            <param name="message">Begründung für den Waurf der Ausnahme.</param>
+            <param name="inner">Ausnahme, die diese Ausnahme verursachte oder null.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallException"/>-Klasse.
+            </summary>
+            <param name="info">Die SerialisationInfo, die die serialisierten Daten über die geworfene Ausnahme enthält.</param>
+            <param name="context">Ein StreamingContext mit Informationen über Quelle oder Ziel.</param>
+        </member>
+        <member name="T:InstallerFramework.Base.StepChangedEventArgs">
+            <summary>
+            Ereignisdaten für das StepChanged-Event.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.StepChangedEventArgs.#ctor(System.Int32)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.StepChangedEventArgs"/>-Klasse.
+            </summary>
+            <param name="oldStep">Ursprüngliche Anzahl der Stufen.</param>
+        </member>
+        <member name="P:InstallerFramework.Base.StepChangedEventArgs.OldStep">
+            <summary>
+            Gibt an, welche die ursprüngliche Stufenanzahl ist.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Dialog.DialogStep">
+            <summary>
+            Die Stufe eines mehrstufigen Dialogs.
+            </summary>
+            <summary>
+            Die Stufe eines mehrstufigen Dialogs.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogStep.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogStep.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogStep.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogStep.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Dialog.DialogStep"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogStep.OnFocusChanged(InstallerFramework.Dialog.FocusChangedEventArgs)">
+            <summary>
+            Ruft das <see cref="E:InstallerFramework.Dialog.DialogStep.FocusChanged"/>-Event auf.
+            </summary>
+            <param name="e">Ereignisdaten für das <see cref="E:InstallerFramework.Dialog.DialogStep.FocusChanged"/>-Event.</param>
+        </member>
+        <member name="E:InstallerFramework.Dialog.DialogStep.FocusChanged">
+            <summary>
+            Tritt ein, wenn sich der Fokus dieser Sufe im Dialog ändert.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Dialog.DialogForm">
+            <summary>
+            Stellt einen mehrstufigen Dialog als Benutzeroberfläche für Installationen dar.
+            </summary>
+            <summary>
+            Stellt einen mehrstufigen Dialog als Benutzeroberfläche für Installationen dar.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.stepIndex">
+            <summary>
+            Gibt den Index der aktuellen Stufe an.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.nextButtonText">
+            <summary>
+            Der Text, der auf dem Weiter-Button steht. Dieses Feld wird nur von Eigenschafts-Accessoren genutzt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.previousButtonText">
+            <summary>
+            Der Text, der auf dem Zurück-Button steht. Dieses Feld wird nur von Eigenschafts-Accessoren genutzt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.finishButtonText">
+            <summary>
+            Der Text, der auf dem Fertig-Button steht. Dieses Feld wird nur von Eigenschafts-Accessoren genutzt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.cancelButtonText">
+            <summary>
+            Der Text, der auf dem Abbrechen-Button steht. Dieses Feld wird nur von Eigenschafts-Accessoren genutzt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.sidebar">
+            <summary>
+            Die Sidebar des Dialogs.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.lastAction">
+            <summary>
+            Die letzte ausgeführte Navigationsaktion des Dialogs. 
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Dialog.DialogForm"/>-Klasse. In diesem Konstruktor müssen die <see cref="T:InstallerFramework.Dialog.DialogStep"/> festgelegt werden.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.#ctor(System.Collections.Generic.IList{InstallerFramework.Dialog.DialogStep})">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Dialog.DialogForm"/>-Klasse.
+            </summary>
+            <param name="controls">Die UserControls, die die einzelnen Stufen des Dialogs repräsentieren.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.InitButtons">
+            <summary>
+            Stellt die Navigationsbuttons richtig ein.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.GotoStep(System.Int32)">
+            <summary>
+            Navigiert zu einer Stufe des Dialogs.
+            </summary>
+            <param name="index">Die Nummer der Stufe.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.GotoStep(InstallerFramework.Dialog.DialogStep)">
+            <summary>
+            Ruft die anzugebende Stufe auf.
+            </summary>
+            <param name="step">Die Stufe, zu der navigiert wird.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.GotoNext">
+            <summary>
+            Geht eine Stufe vor.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.GotoPrevious">
+            <summary>
+            Geht eine Stufe zurück.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.HideCurrentStep">
+            <summary>
+            Versteckt alle Stufen, sodass im Dialog keine Stufe angezeigt wird, und setzt den Stufenindex zurück.
+            Es ist auch möglich, GotoStep(-1) statt diese Methode aufzurufen.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.InitButtonsFirstControl">
+            <summary>
+            Stellt die Navigationsbuttons für die erste Stufe ein.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.InitButtonsMiddleControl">
+            <summary>
+            Stellt die Navigationsbuttons für die mitteleren Stufen ein.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.InitButtonsLastControl">
+            <summary>
+            Stellt die Navigationsbuttons für die letzte Stufe ein.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.OnPrevious(System.EventArgs)">
+            <summary>
+            Ruft das <see cref="E:Previous"/>-Event auf.
+            </summary>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die die Daten der Ereignisses enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.OnNext(System.EventArgs)">
+            <summary>
+            Ruft das <see cref="E:Next"/>-Event auf.
+            </summary>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die die Daten der Ereignisses enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.OnCancel(System.EventArgs)">
+            <summary>
+            Ruft das <see cref="E:Cancel"/>-Event auf.
+            </summary>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die die Daten der Ereignisses enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.OnFinished(System.EventArgs)">
+            <summary>
+            Ruft das <see cref="E:Finished"/>-Event auf.
+            </summary>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die die Daten der Ereignisses enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.SetPropertiesDefault">
+            <summary>
+            Legt die Standardeigenschaften des Dialogs fest.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.NextButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Tritt ein, wenn auf den "Vor"-Button geklickt wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die Ereignisdaten enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.PreviousButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Tritt ein, wenn auf den "Zurück"-Button geklickt wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die Ereignisdaten enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.CancelButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Tritt ein, wenn auf den "Abbrechen"-Button geklickt wird.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.EventArgs"/>-Instanz, die Ereignisdaten enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.NavigationPanel_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Tritt ein, wenn auf dem navigationPanel gezeichnet wird und zeichnet einen 3DBorder.
+            </summary>
+            <param name="sender">Die Ereignisquelle.</param>
+            <param name="e">Die <see cref="T:System.Windows.Forms.PaintEventArgs"/>-Instanz, die Ereignisdaten enthält.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.UserActionGotoStep(System.Int32)">
+            <summary>
+            Navigiert zu einer Stufe des Dialogs.
+            </summary>
+            <param name="stepnumber">Die Nummer der Stufe.</param>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.navigationPanel">
+            <summary>
+            Panel, auf dem Steuerelemente zum Navigieren platziert sind.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.nextButton">
+            <summary>
+            Der 'Weiter'-Button des Dialogs.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.previousButton">
+            <summary>
+            Der 'Zurück'-Button des Dialogs.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.cancelButton">
+            <summary>
+            Die 'Abbrechen'-Button des Dialogs.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.panelSidebar">
+            <summary>
+            Panel, das die Sidebar des Dialogs enthält.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.panelContent">
+            <summary>
+            Panel, das den Inhalt des Dialogs enthält.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Dialog.DialogForm.components">
+            <summary>
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.Dispose(System.Boolean)">
+            <summary>
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:InstallerFramework.Dialog.DialogForm.InitializeComponent">
+            <summary>
+            Erforderliche Methode für die Designerunterstützung.
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="E:InstallerFramework.Dialog.DialogForm.Previous">
+            <summary>
+            Tritt ein, wenn auf den 'Weiter'-Button geklickt wird.
+            </summary>
+        </member>
+        <member name="E:InstallerFramework.Dialog.DialogForm.Next">
+            <summary>
+            Tritt ein, wenn auf den 'Zurück'-Button geklickt wird.
+            </summary>
+        </member>
+        <member name="E:InstallerFramework.Dialog.DialogForm.Cancel">
+            <summary>
+            Tritt ein, wenn auf den 'Abbrechen'-Button geklickt wird.
+            </summary>
+        </member>
+        <member name="E:InstallerFramework.Dialog.DialogForm.Finished">
+            <summary>
+            Tritt ein, wenn auf den 'Fertig'-Button geklickt wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.StepControls">
+            <summary>
+            Gibt an oder legt fest, welche die einzelnen Stufen des Dialogs sind.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.CurrentStepIndex">
+            <summary>
+            Gibt qn oder legt fest, welches der Index der aktuellen Stufe ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.CurrentStep">
+            <summary>
+            Gibt an, welche die aktuelle Stufe des Dialogs an.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.ShowSideBar">
+            <summary>
+            Gibt an oder legt fest, ob die Sidebar angezeigt wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.SideBar">
+            <summary>
+            Gibt an oder legt fest, welche die Sidebar des Dialogs ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.AllowGotoNext">
+            <summary>
+            Gibt an oder legt fest, ob navigiert wird, wenn auf den 'Weiter'-Button geklickt wurde.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.AllowGotoPrevious">
+            <summary>
+            Gibt an oder legt fest, ob navigiert wird, wenn auf den 'Zurück'-Button geklickt wurde.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.CloseOnCancel">
+            <summary>
+            Gibt an oder legt fest, ob die Anwendung nach dem Klicken auf den CancelButton geschlossen wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.NextButtonText">
+            <summary>
+            Gibt an oder legt fest, welcher der Standardtext des Weiter-Buttons ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.PreviousButtonText">
+            <summary>
+            Gibt an oder legt fest, welcher der Standardtext des Zurück-Buttons ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.CloseOnFinish">
+            <summary>
+            Gibt an oder legt fest, ob die Anwengung geschlossen wird, wenn auf den Fertig-Button geklickt wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.FinishButtonText">
+            <summary>
+            Gibt an oder legt fest, welchen Text der Fertig-Button anzeigt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Dialog.DialogForm.CancelButtonText">
+            <summary>
+            Gibt an oder legt fest, welchen Text der CancelButton anzeigt.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.ShowWindow">
+            <summary>
+            Anzeigestatus eines Fensters.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.ShowWindow.ShowNormal">
+            <summary>
+            Das Fenster wird normal angezeigt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.ShowWindow.ShowMaximized">
+            <summary>
+            Das Fenster wird maximiert angezeigt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.ShowWindow.ShowMinNoActive">
+            <summary>
+            Das Fenster wird minimiert angezeigt und ist nicht aktiv.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.NativeMethods">
+            <summary>
+            Wrapper für COM-Interfaces mit ShellLink-Objekten.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.S_OK">
+            <summary>
+            COM-Konstante für die erfolgreiche Ausführung einer Funktion.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.S_FALSE">
+            <summary>
+            COM-Konstante, die einen Fehler anzeigt.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.NativeMethods.SLR_FLAGS">
+            <summary>
+            Art der Suche nach dem Ziel eines ShellLink-Objekts.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_NO_UI">
+            <summary>
+            Do not display a dialog box if the link cannot be resolved. When SLR_NO_UI is set, the high-order word of fFlags can be set to a time-out value that specifies the maximum amount of time to be spent resolving the link. 
+            The function returns if the link cannot be resolved within the time-out duration. If the high-order word is set to zero, the time-out duration will be set to the default value of 3,000 milliseconds (3 seconds). 
+            To specify a value, set the high word of fFlags to the desired time-out duration, in milliseconds.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_ANY_MATCH">
+            <summary>
+            Undocumented member.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_UPDATE">
+            <summary>
+            If the link object has changed, update its path and list of identifiers. If SLR_UPDATE is set, you do not need to call IPersistFile::IsDirty to determine whether or not the link object has changed.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_NOUPDATE">
+            <summary>
+            Link-Informationen werden nicht aktualisiert.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_NOSEARCH">
+            <summary>
+            Es werden keine Suchaktionen ausgeführt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_NOTRACK">
+            <summary>
+            Do not use distributed link tracking.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_NOLINKINFO">
+            <summary>
+            Disable distributed link tracking. By default, distributed link tracking tracks removable media across multiple devices based on the volume name. It also uses the Universal Naming Convention (UNC) path to track remote file systems whose drive letter has changed. Setting SLR_NOLINKINFO disables both types of tracking.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLR_FLAGS.SLR_INVOKE_MSI">
+            <summary>
+            Der Windows Installer wird aufgerufen.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.NativeMethods.SLGP_FLAGS">
+            <summary>
+            Art der Pfadinformation, die gegeben wird.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLGP_FLAGS.SLGP_SHORTPATH">
+            <summary>
+            Emittelt den "standard short"- Dateinamen.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLGP_FLAGS.SLGP_UNCPRIORITY">
+            <summary>
+            Ermittelt den Pfadnamen gemäß der "Universal Naming Convention" (UNC).
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.NativeMethods.SLGP_FLAGS.SLGP_RAWPATH">
+            <summary>
+            Ermittelt den rohen Pfad. Ein roher Pfad darf Umgebungsvariablen enthalten. 
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.NativeMethods.IShellLink">
+            <summary>
+            Enthält Methoden zu, Erstellen und Ändern von ShellLinks.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetPath(System.String@,System.Int32,System.Object@,InstallerFramework.Installers.NativeMethods.SLGP_FLAGS)">
+            <summary>
+            Ermittelt den Pfad mit dem Dateinamen eines ShellLink-Objekts.
+            </summary>
+            <param name="pszFile">Die Adresse des Puffers, in den der Pfad mit dem Dateinamen geschrieben wird.</param>
+            <param name="cchMaxPath">Die maximale Anzahl an Zeichen, die in den Puffer geschreiben werden, auf den 'pszFile' zeigt.</param>
+            <param name="pfd">Die Adresse der WIN32_FIND_DATA, in die Informatonen über das ShellLink-Objekt geschrieben werden.
+            Wenn der Parameter null ist, werden keine zusätzlichen Informationen gegeben.</param>
+            <param name="fFlags">Flags, die die Art der zu gebenden Pfadinformationen bestimmen.</param>
+            <returns>Gibt S_OK zurück, wenn die Ausführung erfolgreich war und korrekter Pfad ermittelt wurde. 
+            Wenn die Ausführung erfolgreich war, aber kein Pfad ermittelt wurde, wird S_FALSE zurückgegeben. Anderenfalls wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetIDList(System.IntPtr@)">
+            <summary>
+            Ermittelt den Zeiger zu einer "Item Identifier List" (PIDL) für ein ShellLink-Objekt.
+            </summary>
+            <param name="pidl">Zeiger zur PIDL des ShellLink-Objekts.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben. S_FALSE wird bei erfolgreicher Ausführung zurückgegeben, wenn keine PIDl gefunden wurde.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetIconLocation(System.String@,System.Int32,System.Int32@)">
+            <summary>
+            Ermittelt den Speicherort des Icon für ein ShellLink-Objekt.
+            </summary>
+            <param name="pszIconPath">Der Pfad zur Datei, in der das Icon gespeichert ist.</param>
+            <param name="cchIconPath">Die maximale Zeichenanzahl, die in den pszIconPath-Parameter geschrieben wird.</param>
+            <param name="piIcon">Der Index des Icons.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetWorkingDirectory(System.String@,System.Int32)">
+            <summary>
+            Ermittelt das Arbeitsverzeichnis eines ShellLink-Objekts.
+            </summary>
+            <param name="pszDir">Der Name das Arbeitsverzeichnisses.</param>
+            <param name="cchMaxPath">Die maximale Zeichenanzahl, die in den pszDir-Parameter geschrieben wird.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetShowCmd(InstallerFramework.Installers.ShowWindow@)">
+            <summary>
+            Ermittelt den Status des Fensters, das durch das Shortcut geöffnet wird.  --beachte: Es geht auch SW_MINIMIZED.
+            </summary>
+            <param name="piShowCmd">Ein Zeiger zum Kommando für den Anzeigestatus des Fensters.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetHotkey(System.Int16@)">
+            <summary>
+            Ermittelt die Tastenkombination für ein ShellLink-Objekt.
+            </summary>
+            <param name="pwHotkey">Die Adresse der Tastenkombination. Der virtuelle Tastencode wird im niederwerigen Byte angegeben, die Modifer-Flags werden im höherwertigen Byte angegeben.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetDescription(System.String@,System.Int32)">
+            <summary>
+            Ermittelt die Beschreibung eines ShellLink-Objekts.
+            </summary>
+            <param name="pszName">Die Adresse eines Puffer, in den die Zeichenkette mit der Beschreibung geschrieben wird.</param>
+            <param name="cchMaxName">Die maximale Anzahl an Zeichen, die in den Puffer geschreiben werden, auf den 'pszName' zeigt.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.GetArguments(System.String@,System.Int32)">
+            <summary>
+            Ermittelt die Kommandizeilenargumente eines ShellLink-Objekts.
+            </summary>
+            <param name="pszArgs">Die Kommandozeilenargumente.</param>
+            <param name="cchMaxPath">Die maximale Zeichenanzahl, die in den pszArgs-Parameter geschrieben wird.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.Resolve(System.IntPtr,InstallerFramework.Installers.NativeMethods.SLR_FLAGS)">
+            <summary>
+            Sucht das Ziel eines ShellLink-Objekts.
+            </summary>
+            <param name="hwnd">Das Handle zum Fenster, das das ShellLink-Objekt als übergeordnetes Fenster für Nachrichtenfenster nutzt. Das Shell zeigt ein Nachrichtenfenster an, wenn der Benutzer erweiterte Informationen während der Suche des Ziels angeben muss.</param>
+            <param name="fFlags">Flag, das die Art des Suchvorgangs angibt.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetDescription(System.String)">
+            <summary>
+            Legt die Beschreibung eines ShellLink-Objekts fest.
+            </summary>
+            <param name="pszName">Die neue Beschreibung des ShellLink-Objekts.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetIDList(System.IntPtr)">
+            <summary>
+            Setzt einen Zeiger zu einer "Item Identifier List" (PIDL) für ein ShellLink-Objekt.
+            </summary>
+            <param name="pidl">Die PIDL des Objekts.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetWorkingDirectory(System.String)">
+            <summary>
+            Legt das Arbeitsverzeichnis für das Ziel eines ShellLink-Objekt fest.
+            </summary>
+            <param name="pszDir">Pfad des Arbeitsverzeichnisses.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetArguments(System.String)">
+            <summary>
+            Legt die Kommandozeilenargumente für ein ShellLink-Objekt fest.
+            </summary>
+            <param name="pszArgs">Die Kommandozeilenargumente.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetHotkey(System.Int16)">
+            <summary>
+            Legt eine Tastenkombination für ein ShellLink-Objekt fest.
+            </summary>
+            <param name="wHotkey">Die neue Tastenkombination. Der KeyCode befindet sich im niederwertigen Byte, das Modifier-Flag befindet sich im höherwertigen Byte.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetShowCmd(InstallerFramework.Installers.ShowWindow)">
+            <summary>
+            Legt den Status des Fensters fest, das durch das Shortcut geöffnet wird.
+            </summary>
+            <param name="piShowCmd">Der Status des Fensters.</param> 
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetIconLocation(System.String,System.Int32)">
+            <summary>
+            Legt das Icon eines ShellLink-Objekts fest.
+            </summary>
+            <param name="pszIconPath">Pfad der Datei, die das Icon enthält.</param>
+            <param name="iIcon">Index des Icons.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetRelativePath(System.String,System.Int32)">
+            <summary>
+            Legt den relativen Pfad zu einem ShellLink-Objekt fest.
+            </summary>
+            <param name="pszPathRel">Der Name des neuen relativen Pfads.</param>
+            <param name="dwReserved">Reserviert, dieser Parameter muss mit 0 angegeben werden.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.NativeMethods.IShellLink.SetPath(System.String)">
+            <summary>
+            Legt den Pfad ein ShellLink-Objekts fest.
+            </summary>
+            <param name="pszFile">Die Adresse eines Puffers, der den neuen Pfadnamen enthält.</param>
+            <returns>Gibt S_OK bei erfolgreicher Ausführung zurück, sonst wird ein Fehlercode zurückgegeben.</returns>
+        </member>
+        <member name="T:InstallerFramework.Installers.NativeMethods.ShellLink">
+            <summary>
+            ShellLink-Objekt zum Erstellen einer Verknüpfung. Eine Instanz dieser Klasse kann <see cref="T:System.Runtime.InteropServices.ComTypes.IPersistFile"/> und IShellLink gecastet werden.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.InstallerFile">
+            <summary>
+            Enthält Informationen für die Installation einer Datei.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.InstallerFile.accessControl">
+            <summary>
+            Private Variable für die <see cref="P:InstallerFramework.Installers.InstallerFile.AccessControl"/>-Eigenschaft.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.InstallerFile.valueStream">
+            <summary>
+            Private Variable für die <see cref="P:InstallerFramework.Installers.InstallerFile.ValueStream"/>-Eigenschaft.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerFile.ValueStream">
+            <summary>
+            Gibt an oder legt fest, aus welchem Stream der Inhalt der Datei gelesen wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerFile.Attributes">
+            <summary>
+            Gibt an oder legt fest, welche Attribute das Verzeichnis bekommt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerFile.ParentDirectory">
+            <summary>
+            Gibt an oder legt fest, welches das übergeordnete Verzeichnis ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerFile.AccessControl">
+            <summary>
+            Gibt an oder legt fest, welche Zugriffsberechtigungen für die Datei festgelegt werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerFile.FileName">
+            <summary>
+            Gibt an oder legt fest, wie der Name der Datei ohne Pfadangabe  ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.InstallerFile.FullPath">
+            <summary>
+            Gibt an, in welchem Pfad die Datei erstellt wird.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.InstallLog">
+            <summary>
+            Verarbeitet Log-Nachrichten, indem sie auf der Konsole ausgegeben werden und in eine Log-Datei geschrieben werden.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallLog.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallLog"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallLog.#ctor(System.String)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.InstallLog"/>-Klasse.
+            </summary>
+            <param name="logfile">Der Pfad zur Log-Datei.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallLog.LogMessage(System.String)">
+            <summary>
+            Gibt eine Nachricht auf der Konsole aus und schreibt sie mit einer Zeitangabe in die Log-Datei.
+            </summary>
+            <param name="msg">Die Nachricht.</param>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallLog.CloseLogFile">
+            <summary>
+            Schließt die Log-Datei.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.InstallLog.DeleteLogFile">
+            <summary>
+            Löscht die Log-Datei und schließt den StreamWriter.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.InstallLog.LogFilePath">
+            <summary>
+            Gibt an oder legt fest, wo sich die Log-Datei befindet.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.InstallLog.LogWriter">
+            <summary>
+            Gibt an oder legt fest, welcher <see cref="T:System.IO.StreamWriter"/> zum Schreiben der Log-Datei verwendet wird.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.StepCounter">
+            <summary>
+            Zählt die Fortschrittsstufen eines Installationsvorgangs.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.StepCounter.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.StepCounter"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.StepCounter.Start">
+            <summary>
+            Startet das Zählen der Stufen und ermittelt die maximale Anzahl der Stufen (StepCounter.MaximumSteps).
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.StepCounter.GetAllInstallers(System.Collections.Generic.IList{InstallerFramework.Base.AdvancedInstaller})">
+            <summary>
+            Ermittelt rekursiv alle Installer.
+            </summary>
+            <param name="inst">Ein <see cref="T:InstallerFramework.Base.AdvancedInstaller"/>-Array, in dem alle Installer gesucht werden.</param>
+            <returns>Die gefundenen Installer werden zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Base.StepCounter.OnStateChanged">
+            <summary>
+            Ruft das <see cref="E:InstallerFramework.Base.StepCounter.StateChanged"/>-Event auf.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.StepCounter.Changed(System.Object,InstallerFramework.Base.StepChangedEventArgs)">
+            <summary>
+            Wird ausgeführt, wenn sich die Stufe eines Installers ändert.
+            </summary>
+            <param name="sender">Der Installer, dessen Stufe sich änderte (die Ereignisquelle).</param>
+            <param name="e">Informationen über das Ereignis.</param>
+        </member>
+        <member name="E:InstallerFramework.Base.StepCounter.StateChanged">
+            <summary>
+            Tritt ein, wenn sich die aktuelle Stufe verändert.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.StepCounter.Installers">
+            <summary>
+            Gibt an oder legt fest, von welchen Installern die Stufen gezählt werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.StepCounter.MaximumSteps">
+            <summary>
+            Gibt an oder legt fest, welche die maximale Stufenanzahl ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.StepCounter.CurrentStep">
+            <summary>
+            Gibt an, bei welcher Stufe der Installations-Vorgang ist.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.RegistryValue">
+            <summary>
+            Informationen über zu erstellende Registrierungseinträge.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.RegistryValue.#ctor(Microsoft.Win32.RegistryKey,System.String,System.String,System.Object)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.RegistryValue"/>-Struktur.
+            </summary>
+            <param name="parentKey">Übergeordneter, existierender Schlüssel in der Registry.</param>
+            <param name="subKeyPath">Erweitereter, relativer Name des Schlüssels. Er muss nicht existieren.</param>
+            <param name="valueName">Name des Inhalts.</param>
+            <param name="value">Inhalt des Wertes.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.RegistryValue.#ctor(Microsoft.Win32.RegistryKey,System.String,System.String,System.Object,Microsoft.Win32.RegistryValueKind)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.RegistryValue"/>-Struktur.
+            </summary>
+            <param name="parentKey">Übergeordneter, existierender Schlüssel in der Registry.</param>
+            <param name="subKeyPath">Erweitereter, relativer Name des Schlüssels. Er muss nicht existieren.</param>
+            <param name="valueName">Name des Inhalts.</param>
+            <param name="value">Inhalt des Wertes.</param>
+            <param name="kind">Datentyp des Wertes.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.RegistryValue.#ctor(Microsoft.Win32.RegistryKey,System.String)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.RegistryValue"/>-Klasse.
+            </summary>
+            <param name="parentKey">Übergeordneter, existierender Schlüssel in der Registry.</param>
+            <param name="subKeyPath">Erweitereter, relativer Name des Schlüssels. Er muss nicht existieren.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.RegistryValue.SubKeyPath">
+            <summary>
+            Gibt an oder legt fest, welchen Namen der Schlüssel hat, in dem ein Wert angelegt wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.RegistryValue.ParentKey">
+            <summary>
+            Gibt an oder legt fest, wo der Schlüssel gespeichert ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.RegistryValue.ValueName">
+            <summary>
+            Gibt an oder legt fest, welchen Namen der Wert hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.RegistryValue.Value">
+            <summary>
+            Gibt an oder legt fest, welchen Inhalt der Wert hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.RegistryValue.Kind">
+            <summary>
+            Gibt an oder legt fest, welchen Datentyp der Wert besitzt.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.RegistryKeyInstaller">
+            <summary>
+            Erstellt Registrierungseinträge in der Registry.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.RegistryKeyInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.RegistryKeyInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.RegistryKeyInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Führt die Installation aus. 
+            </summary>
+            <param name="stateSaver">Ein <see cref="T:System.Collections.IDictionary"/>, in dem die zum Ausführen eines Commit-, Rollback- oder Deinstallationsvorgangs erforderlichen Daten gespeichert werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.RegistryKeyInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Entfernt die erstellten Einträge aus der Registry.
+            </summary>
+            <param name="savedState">Ein <see cref="T:System.Collections.IDictionary"/> mit Informationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.RegistryKeyInstaller.RegistryValues">
+            <summary>
+            Gibt an oder legt fest, welche Registrierungseinträge erstellt werden.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.EventLogInstaller">
+            <summary>
+            Installiert EventLogs auf dem System.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.EventLogInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.EventLogInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.EventLogInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Führt die Installation aus. 
+            </summary>
+            <param name="stateSaver">Ein <see cref="T:System.Collections.IDictionary"/>, in dem die zum Ausführen eines Commit-, Rollback- oder Deinstallationsvorgangs erforderlichen Daten gespeichert werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.EventLogInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Führt die Deinstallation aus.
+            </summary>
+            <param name="savedState">Ein <see cref="T:System.Collections.IDictionary"/> mit Informationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.EventLogInstaller.CreationData">
+            <summary>
+            Gibt an oder legt fest, welche Informationen zum Erstellen des EventLogs verwendet werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.EventLogInstaller.DeleteSourceOnUninstall">
+            <summary>
+            Gibt an oder legt fest, ob bei der Deinstallation die Ereignisquelle gelöscht wird oder nur der EventLog.
+            Ereignisquellen können nur gelöscht werden, wenn ihr Name nicht mit dem Namen des Ereignisprotokolls übereinstimmt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.EventLogInstaller.MaximumKilobytes">
+            <summary>
+            Gibt an oder legt fest, welche maximale Größe der EventLog hat.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.EventLogInstaller.Overflow">
+            <summary>
+            Gibt an oder legt fest, welche Aktion ausgeführt wird, wenn die maximale Größe des EventLogs erreicht ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.EventLogInstaller.MinimumRetentionDays">
+            <summary>
+            Gibt an oder legt fest, für wieviele Tage die Einträge im EventLog aufbewahrt werden, wenn Overflow auf OverwriteOlder gesetzt ist.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.SoftwareRegistryInstaller">
+            <summary>
+            Trägt die Software-Eigenschaften in die Registry ein und ermöglicht so die automatische Deinstallation mit Windows Installer.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.SoftwareRegistryInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instaz der <see cref="T:InstallerFramework.Installers.SoftwareRegistryInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.SoftwareRegistryInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Installiert die Software auf dem Computer, indem REgistryeinträge erstellt werden.
+            </summary>
+            <param name="stateSaver">Ein System.Collections.IDictionary, in dem zum Ausführen des Commit-, Rollback- oder Deinstallationsvorgangs erforderliche Daten gespeichert werden.</param>
+            <exception cref="T:InstallerFramework.Base.InstallException"></exception>
+        </member>
+        <member name="M:InstallerFramework.Installers.SoftwareRegistryInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Deinstalliert die Software, indem die Registryeinträge gelöscht werden.
+            </summary>
+            <param name="savedState">Ein System.Collections.IDictionary mit Informationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.SoftwareRegistryInstaller.Info">
+            <summary>
+            Informationen über die zu installierende Software.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceInstaller">
+            <summary>
+            Installiert Dienste oder Treiber auf dem System.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.Service.ServiceInstaller"/>-Klasse.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.#ctor(System.String,System.String,System.String,InstallerFramework.Installers.Service.ServiceStart,InstallerFramework.Installers.Service.ServiceAccount)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.Service.ServiceInstaller"/>-Klasse und legt alle erforderlichen Eigenschaften des Dienstes fest.
+            </summary>
+            <param name="displayName">Angezeigter Name des Dienstes.</param>
+            <param name="serviceName">Name des Dienstes.</param>
+            <param name="targetPathName">Name zur ausführbaren Datei des Dienstes.</param>
+            <param name="startType">Start-Modus des Dienstes.</param>
+            <param name="account">Account, unter dem der Dienst läuft.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            Installiert den Dienst auf dem System.
+            </summary>
+            <param name="stateSaver">Ein <see cref="T:System.Collections.IDictionary"/>, in dem die zum Ausführen eines Commit-, Rollback- oder Deinstallationsvorgangs erforderlichen Daten gespeichert werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            Deinstalliert den Service.
+            </summary>
+            <param name="savedState">Ein <see cref="T:System.Collections.IDictionary"/> mit Informationen über den Zustand, in dem sich der Computer nach Abschluss der Installation befindet.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.GetPointer(System.Object)">
+            <summary>
+            Wandelt ein Objekt in einen Zeiger um.
+            </summary>
+            <param name="obj">Das Objekt, dessen Zeiger bestimmt wird.</param>
+            <returns>Der Zeiger zum Objekt wird zurückgegeben.</returns>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.Free(System.IntPtr)">
+            <summary>
+            Setzt von einem Zeiger genutztem Speicher zurück.
+            </summary>
+            <param name="pointer">Zeiger zu einer Struktur.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.SetServiceProperties(System.IntPtr)">
+            <summary>
+            Setzt alle erweitereten Diensteigenschaften.
+            </summary>
+            <param name="serviceHandle">Handle zum Dienst, dessen Eigenschaften eingestellt werden.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceInstaller.SetProperty(System.IntPtr,InstallerFramework.Installers.Service.InfoLevel,System.Object)">
+            <summary>
+            Setzt eine Diensteigenschaft.
+            </summary>
+            <param name="serviceHandle">Handle des Dienstes, dessen Eigenschaften festgelegt werden.</param>
+            <param name="level">Eigenschaft, die festgelegt wird.</param>
+            <param name="obj">Wert der festzulegenden Eigenschaft.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.AdditionalProperties">
+            <summary>
+            Erweiterte Diensteigenschaften.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.DisplayName">
+            <summary>
+            Gibt an oder legt fest, welcher der angezeigte Name des Dienstes ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.ServiceName">
+            <summary>
+            Gibt an oder legt fest, wie der Name des Dienstes lautet.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.ServicesDependedOn">
+            <summary>
+            Gibt an oder legt fest, von welchen anderen Diensten der Dienst abhängt.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.MachineName">
+            <summary>
+            Gibt an oder legt fest, bei welchen Host der Dienst ausgeführt wird. Diese Eigenschaft kann ignoriert werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.DataBaseName">
+            <summary>
+            Gibt an oder legt fest, wie der Name der Dienst-Datenbank lautet. Diese Eigenschaft ist nicht erforderlich.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.ServiceType">
+            <summary>
+            Gibt oder oder legt fest, welchen Typ der Dienst hat. Der Standardwert ist 'ServiceType.ServiceWin32OwnProcess'.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.ServiceError">
+            <summary>
+            Gibt an oder legt fest, welche Aktionen durchgeführt werden, wenn ein Fehler im Dienst auftritt. Der Standardwert ist 'ServiceError.Normal'.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.TargetPathName">
+            <summary>
+            Gibt an oder legt fest, welches der Pfad der ausführbaren Datei des Dienstes ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.StartType">
+            <summary>
+            Gibt an oder legt fest, wie der Dienst beim Start des Systems gestartet wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.Account">
+            <summary>
+            Gibt an oder legt fest, welches der Anmeldeaccount des Dienstes ist. Der Standardwert ist 'LocalSystem'.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.LoadOrderGroup">
+            <summary>
+            Gibt an oder legt fest, welche die Gruppe des Dienstes ist. Diese Eigenschaft ist nicht erforderlich.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceInstaller.TagId">
+            <summary>
+            Gibt an oder legt fest, welche Tag-Id der Dienst hat. Diese Eigenschaft ist nicht erforderlich.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Base.SoftwareInfo">
+            <summary>
+            Informationen über eine Software.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Base.SoftwareInfo.#ctor">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Base.SoftwareInfo"/>-Klasse.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.OtherProperties">
+            <summary>
+            Gibt an oder legt, welche optionalen Werte in der Registry gespeichert werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.Publisher">
+            <summary>
+            Gibt an oder legt fest, wer der Herausgeber der Software ist. Diese Eigenschaft muss zugewiesen werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.InstalledForAllUsers">
+            <summary>
+            Gibt an oder legt fest, ob die Software für alle Benutzer installiert ist (true) oder nicht (false).
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.UninstallString">
+            <summary>
+            Gibt an oder legt fest, welche Zeichenkette die Deinstallations-Routine bestimmt. Diese Eigenschaft muss zugewiesen werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.DisplayName">
+            <summary>
+            Gibt an oder legt fest, welches der angezeigte Name des Produnktes ist.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.DisplayVersion">
+            <summary>
+            Gibt an oder legt fest, welche Version des Produktes installiert ist. Diese Eigenschaft sollte angegeben werden.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Base.SoftwareInfo.ProductGuid">
+            <summary>
+            Die Guid des Produkts. Wenn diese Eigenschaft nicht zugewiesen ist, wird eine zufällige Guid erzeugt.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.StandardAccount">
+            <summary>
+            Standardmäßige Accounts für Dienste.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.StandardAccount.LocalSystem">
+            <summary>
+            Wird als lokaler System-Dienst ausgeführt.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.StandardAccount.NetworkService">
+            <summary>
+            Ein Netzwerk-Dienst.
+            </summary>
+        </member>
+        <member name="F:InstallerFramework.Installers.Service.StandardAccount.LocalService">
+            <summary>
+            Ein lokaler Dienst.
+            </summary>
+        </member>
+        <member name="T:InstallerFramework.Installers.Service.ServiceAccount">
+            <summary>
+            Anmeldeinformationen für einen Dienst.
+            </summary>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceAccount.#ctor(InstallerFramework.Installers.Service.StandardAccount)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.Service.ServiceAccount"/>-Klasse. Es wird ein Standardaccount für Dienste verwendet.
+            </summary>
+            <param name="standardAccount">Standardmäßiger Account für den Dienst.</param>
+        </member>
+        <member name="M:InstallerFramework.Installers.Service.ServiceAccount.#ctor(System.String,System.String)">
+            <summary>
+            Initialisiert eine neue Instanz der <see cref="T:InstallerFramework.Installers.Service.ServiceAccount"/>-Klasse. Es wird ein spezieller Account angegeben.
+            </summary>
+            <param name="accountName">Name des Accounts.</param>
+            <param name="password">Passwort des Accounts oder NULL, wenn keines vorhanden ist.</param>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceAccount.AccountToken">
+            <summary>
+            Gibt an, welcher String dem Account zugeordnet wird.
+            </summary>
+        </member>
+        <member name="P:InstallerFramework.Installers.Service.ServiceAccount.Password">
+            <summary>
+            Gibt an, welches Passwort der Account hat.
+            </summary>
+        </member>
+    </members>
+</doc>

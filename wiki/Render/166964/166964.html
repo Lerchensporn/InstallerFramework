@@ -1,0 +1,35 @@
+<div class="wikidoc"><h1>Howto: Erstellen eines eigenen Installers</h1>Es k&#246;nnen mit dem InstallerFramework eigene, kompatible Installer erstellt werden, indem sie von der abstakten AdvancedInstaller-Schnittstelle abgeleitet werden, siehe <a href="https://installerframework.codeplex.com/wikipage?title=AdvancedInstaller-Klasse&referringTitle=Howto%3a%20Erstellen%20eines%20eigenen%20Installers">AdvancedInstaller-Klasse</a>. Im Konstruktor des Installers sollte die maximale Anzahl der Fortschrittsstufen festgelegt werden.<br /><br /><div style="color:Black;background-color:White;"><pre>
+<span style="color:Blue;">public</span> <span style="color:Blue;">class</span> MyInstaller: AdvancedInstaller
+{
+  <span style="color:Blue;">public</span> MyInstaller
+  {
+     <span style="color:Blue;">this</span>.MaxSteps = <span style="color:Blue;">new</span> StepInfo(1, 1);
+  }
+}
+</pre></div><br />Dann k&#246;nnen eigene Installationsvorg&#228;nge durch &#220;berschreiben der Install- und Uninstallmethode definiert werden. In jedem Installationsvorgang muss die Basisimplementierung aufgerufen werden, um die in der Installers-Eigenschaft festgelegten untergeordneten Installationsvorg&#228;nge auszuf&#252;hren.<br />Es ist &#252;blich, vor und nach der Ausf&#252;hrung der Basisimplementierung sowie am Ende einer Methode einen Log-Eintrag zu schreiben. Durch Festlegen der CurrentSteps-Variablen kann die Fortschrittstufe der Installation festgelegt werden. Nach jedem Installationsvorgang muss die Forschrittsstufe gleich der maximalen Stufenanzahl sein!<br /><div style="color:Black;background-color:White;"><pre>
+<span style="color:Blue;">public</span> <span style="color:Blue;">override</span> <span style="color:Blue;">void</span> Install(IDictionary stateSaver)
+{
+  <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Installation gestartet.&quot;</span>);
+  <span style="color:Blue;">base</span>.Install(stateSaver);
+  <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;Komponenten werden installiert...&quot;</span>);
+
+  <span style="color:Green;">// TODO: Installieren der Komponenten</span>
+  stateSaver.Add(<span style="color:#A31515;">&quot;var&quot;</span>, <span style="color:#A31515;">&quot;&lt;info string&gt;&quot;</span>);
+
+  <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Installation abgeschlossen.&quot;</span>);
+  <span style="color:Blue;">this</span>.CurrentSteps = 1;
+}
+
+<span style="color:Blue;">public</span> <span style="color:Blue;">override</span> <span style="color:Blue;">void</span> Uninstall(IDictionary savedState)
+{
+  <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Deinstallation gestartet.&quot;</span>);
+  <span style="color:Blue;">base</span>.Uninstall(savedState);
+  <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;Komponenten werden entfernt...&quot;</span>);
+
+  <span style="color:Green;">// TODO: Entfernen der Komponenten mit den Informationen aus savedState</span>
+  <span style="color:Blue;">this</span>.Log.LogMessage((<span style="color:Blue;">string</span>)savedState[<span style="color:#A31515;">&quot;var&quot;</span>] + <span style="color:#A31515;">&quot; wurde beim Entfernen ausgelesen.&quot;</span>);   
+
+  <span style="color:Blue;">this</span>.Log.LogMessage(<span style="color:#A31515;">&quot;MyInstaller hat die Deinstallation abgeschlossen.&quot;</span>);
+  <span style="color:Blue;">this</span>.CurrentSteps = 1;
+}
+</pre></div></div><div class="ClearBoth"></div>

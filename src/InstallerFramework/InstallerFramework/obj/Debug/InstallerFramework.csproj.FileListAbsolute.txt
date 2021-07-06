@@ -1,0 +1,17 @@
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\Becker.InstallerFramework\bin\Debug\InstallerFramework.dll
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\Becker.InstallerFramework\bin\Debug\InstallerFramework.pdb
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\Becker.InstallerFramework\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\Becker.InstallerFramework\obj\Debug\InstallerFramework.dll
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\Becker.InstallerFramework\obj\Debug\InstallerFramework.pdb
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\Becker.InstallerFramework\bin\Debug\InstallerFramework.XML
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\InstallerFramework\bin\Debug\InstallerFramework.dll
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\InstallerFramework\bin\Debug\InstallerFramework.pdb
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\InstallerFramework\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\InstallerFramework\obj\Debug\InstallerFramework.dll
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\InstallerFramework\obj\Debug\InstallerFramework.pdb
+C:\Users\Andreas Becker\Documents\Visual Studio 2008\Projects\InstallerWizard\InstallerFramework\bin\Debug\InstallerFramework.XML
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\bin\Debug\InstallerFramework.dll
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\bin\Debug\InstallerFramework.pdb
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\obj\Debug\InstallerFramework.dll
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\obj\Debug\InstallerFramework.pdb

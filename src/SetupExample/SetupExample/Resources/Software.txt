@@ -1,0 +1,2 @@
+Diese Software dient dem Testen des InstallerFrameworks. Es werden ein Dienst, ein EventLog, eine Verknüpfung und Verzeichnisse installiert.
+Der Dienst funktioniert nicht, weil seine ausführbare Datei eine "Windows Forms"-Anwendung ist.

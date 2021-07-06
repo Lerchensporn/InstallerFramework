@@ -1,0 +1,6 @@
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\bin\Release\InstallerFramework.XML
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\bin\Release\InstallerFramework.dll
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\bin\Release\InstallerFramework.pdb
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\obj\Release\InstallerFramework.dll
+C:\Users\Andreas Becker\Desktop\InstallerFramework\InstallerFramework\obj\Release\InstallerFramework.pdb

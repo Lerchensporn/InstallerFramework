@@ -1,0 +1,19 @@
+[
+  {
+    "Id": "0",
+    "Name": "InstallerFramework v1.0",
+    "DevelopmentStatus": "Stable",
+    "Description": "Das erste Release des InstallerFrameworks.",
+    "ReleasedDatge": "0001-01-01T00:00:00",
+    "ModifiedDate": "2009-06-08T08:31:18.267-07:00",
+    "Files": [
+      {
+        "Id": "9bdbd41c-2736-4224-801a-dcad6f6ffab2",
+        "FileName": "InstallerFramework.dll",
+        "Url": "./0/9bdbd41c-2736-4224-801a-dcad6f6ffab2",
+        "Type": "Application",
+        "UploadDate": "2009-06-08T08:31:18.157-07:00"
+      }
+    ]
+  }
+]

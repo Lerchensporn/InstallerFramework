@@ -1,0 +1,28 @@
+<div class="wikidoc"><h1>Howto: Erstellen eines mehrstufigen Dialogs</h1>Dieses Dokument beschreibt, wie mit dem InstallerFramework ein mehrstufiger Dialog f&#252;r ein Setup erstellt werden kann.<br /><br />Die Komponenten f&#252;r einen mehrstufigen Dialog befinden sich im InstallerFramwork.Dialog-Namespace. Der eigentliche Dialog befindet sich in der DialogForm-Klasse. Zu diesem Dialog k&#246;nnen mehrere Stufen, deren Typ die DialogStep-Klasse ist, hinzugef&#252;gt werden. Die standardm&#228;&#223;ige Benutzeroberfl&#228;che des Dialogs sieht so aus:<br /><img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=installerframework&DownloadId=70263" alt="DialogForm.png" title="DialogForm.png" /><br /><br /><b>Erstellen des Dialogs</b><br />Um eine Benutzeroberfl&#228;che zu erstellen, muss die DialogForm-Klasse abgeleitet werden. Im Konstruktor werden die Stufen zum Dialog (FirstStep und SecondStep) hinzugef&#252;gt, dann wird mithilfe der GotoStep-Methode zur ersten Stufe navigiert. Die InitializeComponent-Methode wird in Visual Studio vom Designer erzeugt und enth&#228;lt die Oberfl&#228;chengestaltung.<br /><br /><div style="color:Black;background-color:White;"><pre>
+<span style="color:Blue;">using</span> InstallerFramework.Dialog;
+
+<span style="color:Blue;">public</span> <span style="color:Blue;">partial</span> <span style="color:Blue;">class</span> SetupForm : DialogForm
+{
+  <span style="color:Blue;">public</span> SetupForm()
+  {
+     <span style="color:Blue;">this</span>.InitializeComponent();
+
+     <span style="color:Green;">// Stufen hinzuf&#252;gen</span>
+     <span style="color:Blue;">this</span>.StepControls.Add(<span style="color:Blue;">new</span> FirstStep());
+     <span style="color:Blue;">this</span>.StepControls.Add(<span style="color:Blue;">new</span> SecondStep());
+
+     <span style="color:Green;">// Zur ersten Stufe navigieren</span>
+     <span style="color:Blue;">this</span>.GotoStep(0);
+  }
+}
+</pre></div><br />Dann kann der Text der Navigations-Schaltfl&#228;chen mit den NextButtonText-, PrevousButtonText-, FinishButtonText- und CancelButtonText-Eigenschaften festgelegt werden. Die Stufen &quot;FirstStep&quot; und &quot;SecondStep&quot; sind von der DialogStep-Klasse abgeleitet. Stufen k&#246;nnen wie normale Formulare definiert und mit einem Designer gestaltet werden.<br /><br /><div style="color:Black;background-color:White;"><pre>
+<span style="color:Blue;">using</span> InstallerFramework.Dialog;
+
+<span style="color:Blue;">public</span> <span style="color:Blue;">class</span> FirstStep : DialogStep
+{
+  <span style="color:Blue;">public</span> FirstStep()
+  {
+    <span style="color:Blue;">this</span>.InitializeComponent();
+  }
+}
+</pre></div><br /><b>Die Sidebar</b><br />Einem Dialog kann eine Sidebar zugewiesen werden, die dauerhaft zu sehen ist. Die Sidebar ist ein normales UserControl, das beliebig gestaltet werden kann. Die Zuweisung erfolgt &#252;ber die DialogForm.Sidebar-Eigenschaft. Wichtig ist das Festlegen der Dock-Eigenschaft der Sidebar, sie bestimmt ihre Position im DialogForm.</div><div class="ClearBoth"></div>
